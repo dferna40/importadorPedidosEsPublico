@@ -8,16 +8,16 @@ public class HomeController {
 
 	@GetMapping("/inicio")
     public String index() {
-        return "index";  // Sin la extensión .html
+        return "index";
     }
 	
 	@GetMapping("/importar")
     public String about() {
-        return "about";  // Sin la extensión .html
+        return "about";
     }
 	
 	@GetMapping("/resumen")
     public String resumen() {
-        return "about";  // Sin la extensión .html
+        return "about";
     }
 }
