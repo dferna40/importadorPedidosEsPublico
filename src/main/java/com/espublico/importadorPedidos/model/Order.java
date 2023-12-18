@@ -3,11 +3,10 @@ package com.espublico.importadorPedidos.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
@@ -43,27 +42,26 @@ public class Order {
     
     // Constructor sin parametros
     public Order() {
-		super();
 	}
     
     // Constructor con parámetros
-    public Order(Long orderId, LocalDate orderDate, LocalDate shipDate, String orderPriority, Integer unitsSold,
-			BigDecimal unitPrice, BigDecimal unitCost, BigDecimal totalRevenue, BigDecimal totalCost,
-			BigDecimal totalProfit, Product product, Customer customer) {
-		super();
-		this.orderId = orderId;
-		this.orderDate = orderDate;
-		this.shipDate = shipDate;
-		this.orderPriority = orderPriority;
-		this.unitsSold = unitsSold;
-		this.unitPrice = unitPrice;
-		this.unitCost = unitCost;
-		this.totalRevenue = totalRevenue;
-		this.totalCost = totalCost;
-		this.totalProfit = totalProfit;
-		this.product = product;
-		this.customer = customer;
-	}
+//    public Order(Long orderId, LocalDate orderDate, LocalDate shipDate, String orderPriority, Integer unitsSold,
+//			BigDecimal unitPrice, BigDecimal unitCost, BigDecimal totalRevenue, BigDecimal totalCost,
+//			BigDecimal totalProfit, Product product, Customer customer) {
+//		super();
+//		this.orderId = orderId;
+//		this.orderDate = orderDate;
+//		this.shipDate = shipDate;
+//		this.orderPriority = orderPriority;
+//		this.unitsSold = unitsSold;
+//		this.unitPrice = unitPrice;
+//		this.unitCost = unitCost;
+//		this.totalRevenue = totalRevenue;
+//		this.totalCost = totalCost;
+//		this.totalProfit = totalProfit;
+//		this.product = product;
+//		this.customer = customer;
+//	}
 
 	// Getters y setters
 	public Long getOrderId() {
