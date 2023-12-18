@@ -1,3 +1,7 @@
+Url aplicación:
+
+http://localhost:8080/importadorPedidos/inicio
+
 Configuración maven:
 
 apache-maven-3.9.6-bin
@@ -13,3 +17,14 @@ Url: jdbc:mysql://localhost:3306/pedidos_db?useSSL=false&allowPublicKeyRetrieval
 
 Usuario: root
 Pass: root
+
+Java:
+
+Version 17
+
+Eclipse:
+
+Eclipse IDE for Enterprise Java and Web Developers (includes Incubating components)
+
+Version: 2023-09 (4.29.0)
+Build id: 20230907-1323
