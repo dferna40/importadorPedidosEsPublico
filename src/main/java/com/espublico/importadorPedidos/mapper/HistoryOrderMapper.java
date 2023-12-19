@@ -19,7 +19,6 @@ public class HistoryOrderMapper {
         HistoryOrderDTO dto = new HistoryOrderDTO();
         dto.setChangeDate(historyOrder.getChangeDate());
         dto.setHistoryId(historyOrder.getHistoryId());
-        dto.setOrderId(historyOrder.getOrder().getOrderId() != null ? historyOrder.getOrder().getOrderId() : null);
 
         return dto;
     }
@@ -32,7 +31,6 @@ public class HistoryOrderMapper {
         HistoryOrder historyOrder = new HistoryOrder();
         historyOrder.setChangeDate(historyOrderDTO.getChangeDate());
         historyOrder.setHistoryId(historyOrderDTO.getHistoryId());
-        historyOrder.getOrder().setOrderId(historyOrderDTO.getOrderId());
 
         return historyOrder;
     }

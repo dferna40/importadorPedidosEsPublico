@@ -18,6 +18,7 @@ public class OrderDTO {
 	private double totalRevenue;
 	private double totalCost;
 	private double totalProfit;
+	private Long historyId;
 
 	// Constructores, getters y setters
 
@@ -27,7 +28,7 @@ public class OrderDTO {
 
 	public OrderDTO(Long orderId, LocalDate orderDate, LocalDate shipDate, String orderPriority, Integer unitsSold,
 			String salesChannel, String country, String itemType, String region, double unitPrice, double unitCost,
-			double totalRevenue, double totalCost, double totalProfit) {
+			double totalRevenue, double totalCost, double totalProfit,Long historyId) {
 		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;
@@ -43,6 +44,7 @@ public class OrderDTO {
 		this.totalRevenue = totalRevenue;
 		this.totalCost = totalCost;
 		this.totalProfit = totalProfit;
+		this.historyId = historyId;
 	}
 
 	public Long getOrderId() {
@@ -155,6 +157,14 @@ public class OrderDTO {
 
 	public void setTotalProfit(double totalProfit) {
 		this.totalProfit = totalProfit;
+	}
+
+	public Long getHistoryId() {
+		return historyId;
+	}
+
+	public void setHistoryId(Long historyId) {
+		this.historyId = historyId;
 	}
 	
 	

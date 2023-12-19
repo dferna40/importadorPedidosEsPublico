@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,7 +17,7 @@ public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "order_id", updatable = false, nullable = false)
+	@Column(name = "order_id")
 	private Long orderId;
 
 	@Column(name = "order_date")
@@ -56,6 +58,10 @@ public class Order {
 
 	@Column(name = "total_profit")
 	private double totalProfit;
+	
+	@ManyToOne
+    @JoinColumn(name = "history_id")
+	private HistoryOrder historyOrder;
 
 	// Constructor sin parametros Getters y setters
 	public Order() {
@@ -171,6 +177,14 @@ public class Order {
 
 	public void setTotalProfit(double totalProfit) {
 		this.totalProfit = totalProfit;
+	}
+
+	public HistoryOrder getHistoryOrder() {
+		return historyOrder;
+	}
+
+	public void setHistoryOrder(HistoryOrder historyOrder) {
+		this.historyOrder = historyOrder;
 	}
 
 }

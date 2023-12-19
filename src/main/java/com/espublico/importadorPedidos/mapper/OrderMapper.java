@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.espublico.importadorPedidos.dto.HistoryOrderDTO;
 import com.espublico.importadorPedidos.dto.OrderDTO;
+import com.espublico.importadorPedidos.model.HistoryOrder;
 import com.espublico.importadorPedidos.model.Order;
 
 @Component("orderMapper")
@@ -31,6 +33,8 @@ public class OrderMapper {
         dto.setTotalProfit(order.getTotalProfit());
         dto.setUnitCost(order.getUnitCost());
         dto.setUnitPrice(order.getUnitPrice());
+        dto.setHistoryId(order.getHistoryOrder() != null ? order.getHistoryOrder().getHistoryId() : null);
+
 
         return dto;
     }
@@ -55,11 +59,8 @@ public class OrderMapper {
         order.setTotalProfit(orderDTO.getTotalProfit());
         order.setUnitCost(orderDTO.getUnitCost());
         order.setUnitPrice(orderDTO.getUnitPrice());
+        order.setHistoryOrder(orderDTO.getHistoryId() != null ? new HistoryOrder(orderDTO.getHistoryId()) : null);
 
-        // Aquí debes manejar la asignación de Product y Customer
-        // Esto podría requerir buscar las entidades correspondientes en la base de datos
-
-        // Agrega los campos restantes necesarios
         return order;
     }
 

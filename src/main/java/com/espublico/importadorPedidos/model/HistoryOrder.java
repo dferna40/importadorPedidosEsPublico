@@ -17,7 +17,7 @@ public class HistoryOrder {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "history_id", updatable = false, nullable = false)
+    @Column(name = "history_id")
     private Long historyId;
 
     @ManyToOne
@@ -29,6 +29,10 @@ public class HistoryOrder {
 
     public HistoryOrder() {
         // Constructor vacío necesario para JPA
+    }
+    
+    public HistoryOrder(Long historyId) {
+    	this.historyId = historyId;
     }
 
     // Constructor con parámetros
