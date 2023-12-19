@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.espublico.importadorPedidos.dto.OrderDTO;
 import com.espublico.importadorPedidos.model.Order;
 
-@Component
+@Component("orderMapper")
 public class OrderMapper {
 
 	public OrderDTO toDto(Order order) {
@@ -22,16 +22,16 @@ public class OrderMapper {
         dto.setShipDate(order.getShipDate());
         dto.setOrderPriority(order.getOrderPriority());
         dto.setUnitsSold(order.getUnitsSold());
+        dto.setCountry(order.getCountry());
+        dto.setItemType(order.getItemType());
+        dto.setRegion(order.getRegion());
+        dto.setSalesChannel(order.getSalesChannel());
+        dto.setTotalCost(order.getTotalCost());
+        dto.setTotalRevenue(order.getTotalRevenue());
+        dto.setTotalProfit(order.getTotalProfit());
+        dto.setUnitCost(order.getUnitCost());
+        dto.setUnitPrice(order.getUnitPrice());
 
-        if (order.getProduct() != null) {
-            dto.setProductId(order.getProduct().getProductId());
-            // Agregar más campos del producto si es necesario
-        }
-        if (order.getCustomer() != null) {
-            dto.setCustomerId(order.getCustomer().getCustomerId());
-            // Agregar más campos del cliente si es necesario
-        }
-        // Agrega los campos restantes necesarios
         return dto;
     }
 
@@ -46,6 +46,15 @@ public class OrderMapper {
         order.setShipDate(orderDTO.getShipDate());
         order.setOrderPriority(orderDTO.getOrderPriority());
         order.setUnitsSold(orderDTO.getUnitsSold());
+        order.setCountry(orderDTO.getCountry());
+        order.setItemType(orderDTO.getItemType());
+        order.setRegion(orderDTO.getRegion());
+        order.setSalesChannel(orderDTO.getSalesChannel());
+        order.setTotalCost(orderDTO.getTotalCost());
+        order.setTotalRevenue(orderDTO.getTotalRevenue());
+        order.setTotalProfit(orderDTO.getTotalProfit());
+        order.setUnitCost(orderDTO.getUnitCost());
+        order.setUnitPrice(orderDTO.getUnitPrice());
 
         // Aquí debes manejar la asignación de Product y Customer
         // Esto podría requerir buscar las entidades correspondientes en la base de datos

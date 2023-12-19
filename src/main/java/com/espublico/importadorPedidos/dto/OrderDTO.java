@@ -9,10 +9,15 @@ public class OrderDTO {
 	private LocalDate shipDate;
 	private String orderPriority;
 	private Integer unitsSold;
-	private Long productId;
-	private String productName; // Ejemplo, si quieres incluir detalles del producto
-	private Long customerId;
-	private String customerName; // Ejemplo, si quieres incluir detalles del cliente
+	private String salesChannel;
+	private String country;
+	private String itemType;
+	private String region;
+	private double unitPrice;
+	private double unitCost;
+	private double totalRevenue;
+	private double totalCost;
+	private double totalProfit;
 
 	// Constructores, getters y setters
 
@@ -20,18 +25,24 @@ public class OrderDTO {
 		// Constructor vacío
 	}
 
-	// Constructor con todos los campos
 	public OrderDTO(Long orderId, LocalDate orderDate, LocalDate shipDate, String orderPriority, Integer unitsSold,
-			Long productId, String productName, Long customerId, String customerName) {
+			String salesChannel, String country, String itemType, String region, double unitPrice, double unitCost,
+			double totalRevenue, double totalCost, double totalProfit) {
+		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;
 		this.shipDate = shipDate;
 		this.orderPriority = orderPriority;
 		this.unitsSold = unitsSold;
-		this.productId = productId;
-		this.productName = productName;
-		this.customerId = customerId;
-		this.customerName = customerName;
+		this.salesChannel = salesChannel;
+		this.country = country;
+		this.itemType = itemType;
+		this.region = region;
+		this.unitPrice = unitPrice;
+		this.unitCost = unitCost;
+		this.totalRevenue = totalRevenue;
+		this.totalCost = totalCost;
+		this.totalProfit = totalProfit;
 	}
 
 	public Long getOrderId() {
@@ -74,35 +85,78 @@ public class OrderDTO {
 		this.unitsSold = unitsSold;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public String getSalesChannel() {
+		return salesChannel;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setSalesChannel(String salesChannel) {
+		this.salesChannel = salesChannel;
 	}
 
-	public String getProductName() {
-		return productName;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
-	public Long getCustomerId() {
-		return customerId;
+	public String getItemType() {
+		return itemType;
 	}
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
 	}
 
-	public String getCustomerName() {
-		return customerName;
+	public String getRegion() {
+		return region;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setRegion(String region) {
+		this.region = region;
 	}
-}
+
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public double getUnitCost() {
+		return unitCost;
+	}
+
+	public void setUnitCost(double unitCost) {
+		this.unitCost = unitCost;
+	}
+
+	public double getTotalRevenue() {
+		return totalRevenue;
+	}
+
+	public void setTotalRevenue(double totalRevenue) {
+		this.totalRevenue = totalRevenue;
+	}
+
+	public double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public double getTotalProfit() {
+		return totalProfit;
+	}
+
+	public void setTotalProfit(double totalProfit) {
+		this.totalProfit = totalProfit;
+	}
+	
+	
+
+	}

@@ -1,69 +1,66 @@
 package com.espublico.importadorPedidos.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "order")
 public class Order {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "order_id", updatable = false, nullable = false)
+	private Long orderId;
 
-    private LocalDate orderDate;
+	@Column(name = "order_date")
+	private LocalDate orderDate;
 
-    private LocalDate shipDate;
+	@Column(name = "ship_date")
+	private LocalDate shipDate;
 
-    private String orderPriority;
+	@Column(name = "order_priority")
+	private String orderPriority;
 
-    private Integer unitsSold;
-    private BigDecimal unitPrice;
-    private BigDecimal unitCost;
-    private BigDecimal totalRevenue;
-    private BigDecimal totalCost;
-    private BigDecimal totalProfit;
+	@Column(name = "units_sold")
+	private Integer unitsSold;
 
-    @ManyToOne
-    @JoinColumn(name = "productId")
-    private Product product;
+	@Column(name = "sales_channel")
+	private String salesChannel;
 
-    @ManyToOne
-    @JoinColumn(name = "customerId")
-    private Customer customer;
-    
-    
-    // Constructor sin parametros
-    public Order() {
+	@Column(name = "country")
+	private String country;
+
+	@Column(name = "item_type")
+	private String itemType;
+
+	@Column(name = "region")
+	private String region;
+
+	@Column(name = "unit_price")
+	private double unitPrice;
+
+	@Column(name = "unit_cost")
+	private double unitCost;
+
+	@Column(name = "total_revenue")
+	private double totalRevenue;
+
+	@Column(name = "total_cost")
+	private double totalCost;
+
+	@Column(name = "total_profit")
+	private double totalProfit;
+
+	// Constructor sin parametros Getters y setters
+	public Order() {
 	}
-    
-    // Constructor con parámetros
-//    public Order(Long orderId, LocalDate orderDate, LocalDate shipDate, String orderPriority, Integer unitsSold,
-//			BigDecimal unitPrice, BigDecimal unitCost, BigDecimal totalRevenue, BigDecimal totalCost,
-//			BigDecimal totalProfit, Product product, Customer customer) {
-//		super();
-//		this.orderId = orderId;
-//		this.orderDate = orderDate;
-//		this.shipDate = shipDate;
-//		this.orderPriority = orderPriority;
-//		this.unitsSold = unitsSold;
-//		this.unitPrice = unitPrice;
-//		this.unitCost = unitCost;
-//		this.totalRevenue = totalRevenue;
-//		this.totalCost = totalCost;
-//		this.totalProfit = totalProfit;
-//		this.product = product;
-//		this.customer = customer;
-//	}
 
-	// Getters y setters
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -104,61 +101,76 @@ public class Order {
 		this.unitsSold = unitsSold;
 	}
 
-	public BigDecimal getUnitPrice() {
+	public String getSalesChannel() {
+		return salesChannel;
+	}
+
+	public void setSalesChannel(String salesChannel) {
+		this.salesChannel = salesChannel;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public double getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(BigDecimal unitPrice) {
+	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
-	public BigDecimal getUnitCost() {
+	public double getUnitCost() {
 		return unitCost;
 	}
 
-	public void setUnitCost(BigDecimal unitCost) {
+	public void setUnitCost(double unitCost) {
 		this.unitCost = unitCost;
 	}
 
-	public BigDecimal getTotalRevenue() {
+	public double getTotalRevenue() {
 		return totalRevenue;
 	}
 
-	public void setTotalRevenue(BigDecimal totalRevenue) {
+	public void setTotalRevenue(double totalRevenue) {
 		this.totalRevenue = totalRevenue;
 	}
 
-	public BigDecimal getTotalCost() {
+	public double getTotalCost() {
 		return totalCost;
 	}
 
-	public void setTotalCost(BigDecimal totalCost) {
+	public void setTotalCost(double totalCost) {
 		this.totalCost = totalCost;
 	}
 
-	public BigDecimal getTotalProfit() {
+	public double getTotalProfit() {
 		return totalProfit;
 	}
 
-	public void setTotalProfit(BigDecimal totalProfit) {
+	public void setTotalProfit(double totalProfit) {
 		this.totalProfit = totalProfit;
 	}
 
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-    
 }
