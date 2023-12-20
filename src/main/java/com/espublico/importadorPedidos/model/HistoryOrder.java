@@ -1,6 +1,7 @@
 package com.espublico.importadorPedidos.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,9 +22,8 @@ public class HistoryOrder {
     @Column(name = "history_id")
     private Long historyId;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+	@OneToMany(mappedBy = "historyOrder")
+    private Set<PurchaseOrder> purchaseOrders;
 
     @Column(name = "change_date")
     private LocalDate changeDate;
@@ -35,13 +36,15 @@ public class HistoryOrder {
     	this.historyId = historyId;
     }
 
-    // Constructor con parámetros
-    public HistoryOrder(Order order, LocalDate changeDate) {
-        this.order = order;
-        this.changeDate = changeDate;
-    }
 
-    // Getters y setters
+    public HistoryOrder(Long historyId, Set<PurchaseOrder> purchaseOrders, LocalDate changeDate) {
+		super();
+		this.historyId = historyId;
+		this.purchaseOrders = purchaseOrders;
+		this.changeDate = changeDate;
+	}
+
+	// Getters y setters
     public Long getHistoryId() {
         return historyId;
     }
@@ -50,13 +53,7 @@ public class HistoryOrder {
         this.historyId = historyId;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+   
 
     public LocalDate getChangeDate() {
         return changeDate;
@@ -65,5 +62,13 @@ public class HistoryOrder {
     public void setChangeDate(LocalDate changeDate) {
         this.changeDate = changeDate;
     }
+
+	public Set<PurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
+	}
+
+	public void setPurchaseOrders(Set<PurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
+	}
 
 }

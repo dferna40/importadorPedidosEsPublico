@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,9 @@ import com.espublico.importadorPedidos.service.ImportCsvService;
 
 @Controller
 public class HomeController {
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
 	@Autowired
 	@Qualifier("importCsvService")
 	private ImportCsvService importCsvService;
@@ -48,28 +52,34 @@ public class HomeController {
 	 */
 	@PostMapping("/importarPedidos")
 	public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file) {
-		if (!file.isEmpty()) {
+		ModelAndView modelAndView = new ModelAndView();
+
+		if (file.isEmpty()) {
+			//Si el fichero esta vacio vuelve a la pagina de inicio
+			modelAndView.setViewName("index");
+			modelAndView.addObject("warningMessage",
+					"El archivo está vacío. Por favor seleccione un archivo para cargar.");
+		} else {
 			try (BufferedReader reader = new BufferedReader(
 					new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
-				// Saltar la primera línea que contiene los encabezados
-				reader.readLine();
-				
+				reader.readLine(); // Saltar encabezados
 
 				List<String> errorMessages = importCsvService.processCsvFile(reader);
 				if (!errorMessages.isEmpty()) {
-					// Manejar los mensajes de error
-					ModelAndView modelAndView = new ModelAndView("errorView");
-		            modelAndView.addObject("errors", errorMessages);
-		            return modelAndView;
+					modelAndView.setViewName("errorView");
+					modelAndView.addObject("errors", errorMessages);
+					return modelAndView;
 				}
-				// Después de procesar el archivo, redirigir a la página con información
-				return new ModelAndView("redirect:/importar");
+
+				modelAndView.setViewName("redirect:/importar");
 			} catch (IOException ioe) {
-				// Manejar excepciones
-				ioe.printStackTrace();
+				logger.error("Error al procesar el archivo", ioe);
+				modelAndView.setViewName("errorView");
+				modelAndView.addObject("errorMessage",
+						"Hubo un error al procesar el archivo. Por favor intente nuevamente.");
 			}
 		}
-		// Redirigir a la página de carga si hay un error o el archivo está vacío
-		return new ModelAndView("redirect:/inicio");
+
+		return modelAndView;
 	}
 }

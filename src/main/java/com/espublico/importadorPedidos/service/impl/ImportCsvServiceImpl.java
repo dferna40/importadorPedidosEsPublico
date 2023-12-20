@@ -7,29 +7,44 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.espublico.importadorPedidos.dto.OrderDTO;
+import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
+import com.espublico.importadorPedidos.mapper.PurchaseOrderMapper;
+import com.espublico.importadorPedidos.model.PurchaseOrder;
+import com.espublico.importadorPedidos.repository.OrderRepository;
 import com.espublico.importadorPedidos.service.ImportCsvService;
 import com.espublico.importadorPedidos.util.CsvDataValidator;
 
 @Service("importCsvService")
 public class ImportCsvServiceImpl implements ImportCsvService {
-	
+
+	@Autowired
+	@Qualifier("orderMapper")
+	private PurchaseOrderMapper orderMapper;
+
+	@Autowired
+	@Qualifier("orderRepository")
+	private OrderRepository orderRepository;
+
 	List<String> errorMessages = new ArrayList<>();
+	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
 	public List<String> processCsvFile(BufferedReader reader) throws IOException {
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		List<OrderDTO> orders = new ArrayList<>();
+		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<PurchaseOrderDTO> orders = new ArrayList<>();
+		List<PurchaseOrder> modelOrders = new ArrayList<>();
 		String line;
 		while ((line = reader.readLine()) != null) {
 			// Procesar cada línea del archivo CSV
 			String[] values = line.split(",");
-			
-			if(validValuesCsv(values,line)) {
-				OrderDTO orderDTO = new OrderDTO();
-				
+
+			if (validValuesCsv(values, line)) {
+				PurchaseOrderDTO orderDTO = new PurchaseOrderDTO();
+
 				orderDTO.setRegion(values[0]);
 				orderDTO.setCountry(values[1]);
 				orderDTO.setItemType(values[2]);
@@ -46,61 +61,66 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 				orderDTO.setTotalRevenue(Double.parseDouble(values[11]));
 				orderDTO.setTotalCost(Double.parseDouble(values[12]));
 				orderDTO.setTotalProfit(Double.parseDouble(values[13]));
+				// En cada iteracion se añade la orden a la lista de ordenes
+				orders.add(orderDTO);
 			}
-			//A continuacion tengo que guardar en base de datos
-
-			System.out.println("");
 		}
+		// Se convierte de dto a model
+		modelOrders = orderMapper.toEntityList(orders);
+		// Guardar en base de datos
+		orderRepository.saveAll(modelOrders);
+
+		System.out.println("");
 		return errorMessages;
-		
+
 	}
-	
-	private boolean validValuesCsv (String[] values, String line) {
-		
+
+	private boolean validValuesCsv(String[] values, String line) {
+
 		boolean isValid = true;
-		
-		if (!CsvDataValidator.isValidString(values[0],"Region", errorMessages)) {
+
+		if (!CsvDataValidator.isValidString(values[0], "Region", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidString(values[1],"Country", errorMessages)) {
+		if (!CsvDataValidator.isValidString(values[1], "Country", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidString(values[2],"ItemType", errorMessages)) {
+		if (!CsvDataValidator.isValidString(values[2], "ItemType", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidString(values[3],"SalesChanne", errorMessages)) {
+		if (!CsvDataValidator.isValidString(values[3], "SalesChanne", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidString(values[4],"OrderPriority", errorMessages)) {
+		if (!CsvDataValidator.isValidString(values[4], "OrderPriority", errorMessages)) {
 			isValid = false;
 		}
 
-		if (!CsvDataValidator.isValidDate(values[5], formatter,"OrderDate", errorMessages)) {
+		if (!CsvDataValidator.isValidDate(values[5], formatter, "OrderDate", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidDate(values[7], formatter,"ShipDate", errorMessages)) {
+		if (!CsvDataValidator.isValidDate(values[7], formatter, "ShipDate", errorMessages)) {
 			isValid = false;
 		}
 
-		if (!CsvDataValidator.isValidNumber(values[6],"OrderId", errorMessages)) {
+		if (!CsvDataValidator.isValidNumber(values[6], "OrderId", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidNumber(values[8],"UnitsSold", errorMessages)) {
+		if (!CsvDataValidator.isValidNumber(values[8], "UnitsSold", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidNumber(values[9],"UnitPrice", errorMessages)) {
+		if (!CsvDataValidator.isValidNumber(values[9], "UnitPrice", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidNumber(values[10],"UnitCost", errorMessages)) {
+		if (!CsvDataValidator.isValidNumber(values[10], "UnitCost", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidNumber(values[11],"TotalRevenue", errorMessages)) {
+		if (!CsvDataValidator.isValidNumber(values[11], "TotalRevenue", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidNumber(values[12],"TotalCost", errorMessages)) {
+		if (!CsvDataValidator.isValidNumber(values[12], "TotalCost", errorMessages)) {
 			isValid = false;
 		}
-		if (!CsvDataValidator.isValidNumber(values[13],"TotalProfit", errorMessages)) {
+		if (!CsvDataValidator.isValidNumber(values[13], "TotalProfit", errorMessages)) {
 			isValid = false;
 		}
 		return isValid;

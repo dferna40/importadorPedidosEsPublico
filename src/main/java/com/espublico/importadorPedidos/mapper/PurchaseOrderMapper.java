@@ -5,19 +5,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.espublico.importadorPedidos.dto.OrderDTO;
+import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
 import com.espublico.importadorPedidos.model.HistoryOrder;
-import com.espublico.importadorPedidos.model.Order;
+import com.espublico.importadorPedidos.model.PurchaseOrder;
 
 @Component("orderMapper")
-public class OrderMapper {
+public class PurchaseOrderMapper {
 
-	public OrderDTO toDto(Order order) {
+	public PurchaseOrderDTO toDto(PurchaseOrder order) {
         if (order == null) {
             return null;
         }
 
-        OrderDTO dto = new OrderDTO();
+        PurchaseOrderDTO dto = new PurchaseOrderDTO();
         dto.setOrderId(order.getOrderId());
         dto.setOrderDate(order.getOrderDate());
         dto.setShipDate(order.getShipDate());
@@ -38,12 +38,12 @@ public class OrderMapper {
         return dto;
     }
 
-    public Order toEntity(OrderDTO orderDTO) {
+    public PurchaseOrder toEntity(PurchaseOrderDTO orderDTO) {
         if (orderDTO == null) {
             return null;
         }
 
-        Order order = new Order();
+        PurchaseOrder order = new PurchaseOrder();
         order.setOrderId(orderDTO.getOrderId());
         order.setOrderDate(orderDTO.getOrderDate());
         order.setShipDate(orderDTO.getShipDate());
@@ -63,25 +63,25 @@ public class OrderMapper {
         return order;
     }
 
-    public List<OrderDTO> toDtoList(List<Order> orders) {
+    public List<PurchaseOrderDTO> toDtoList(List<PurchaseOrder> orders) {
         if (orders == null) {
             return null;
         }
 
-        List<OrderDTO> orderDTOs = new ArrayList<>();
-        for (Order order : orders) {
+        List<PurchaseOrderDTO> orderDTOs = new ArrayList<>();
+        for (PurchaseOrder order : orders) {
             orderDTOs.add(toDto(order));
         }
         return orderDTOs;
     }
 
-    public List<Order> toEntityList(List<OrderDTO> orderDTOs) {
+    public List<PurchaseOrder> toEntityList(List<PurchaseOrderDTO> orderDTOs) {
         if (orderDTOs == null) {
             return null;
         }
 
-        List<Order> orders = new ArrayList<>();
-        for (OrderDTO orderDTO : orderDTOs) {
+        List<PurchaseOrder> orders = new ArrayList<>();
+        for (PurchaseOrderDTO orderDTO : orderDTOs) {
             orders.add(toEntity(orderDTO));
         }
         return orders;

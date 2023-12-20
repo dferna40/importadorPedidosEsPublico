@@ -1,70 +1,50 @@
-package com.espublico.importadorPedidos.model;
+package com.espublico.importadorPedidos.dto;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+public class PurchaseOrderDTO {
 
-@Entity
-@Table(name = "order")
-public class Order {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "order_id")
 	private Long orderId;
-
-	@Column(name = "order_date")
 	private LocalDate orderDate;
-
-	@Column(name = "ship_date")
 	private LocalDate shipDate;
-
-	@Column(name = "order_priority")
 	private String orderPriority;
-
-	@Column(name = "units_sold")
 	private Integer unitsSold;
-
-	@Column(name = "sales_channel")
 	private String salesChannel;
-
-	@Column(name = "country")
 	private String country;
-
-	@Column(name = "item_type")
 	private String itemType;
-
-	@Column(name = "region")
 	private String region;
-
-	@Column(name = "unit_price")
 	private double unitPrice;
-
-	@Column(name = "unit_cost")
 	private double unitCost;
-
-	@Column(name = "total_revenue")
 	private double totalRevenue;
-
-	@Column(name = "total_cost")
 	private double totalCost;
-
-	@Column(name = "total_profit")
 	private double totalProfit;
-	
-	@ManyToOne
-    @JoinColumn(name = "history_id")
-	private HistoryOrder historyOrder;
+	private Long historyId;
 
-	// Constructor sin parametros Getters y setters
-	public Order() {
+	// Constructores, getters y setters
+
+	public PurchaseOrderDTO() {
+		// Constructor vacío
+	}
+
+	public PurchaseOrderDTO(Long orderId, LocalDate orderDate, LocalDate shipDate, String orderPriority, Integer unitsSold,
+			String salesChannel, String country, String itemType, String region, double unitPrice, double unitCost,
+			double totalRevenue, double totalCost, double totalProfit,Long historyId) {
+		super();
+		this.orderId = orderId;
+		this.orderDate = orderDate;
+		this.shipDate = shipDate;
+		this.orderPriority = orderPriority;
+		this.unitsSold = unitsSold;
+		this.salesChannel = salesChannel;
+		this.country = country;
+		this.itemType = itemType;
+		this.region = region;
+		this.unitPrice = unitPrice;
+		this.unitCost = unitCost;
+		this.totalRevenue = totalRevenue;
+		this.totalCost = totalCost;
+		this.totalProfit = totalProfit;
+		this.historyId = historyId;
 	}
 
 	public Long getOrderId() {
@@ -179,12 +159,14 @@ public class Order {
 		this.totalProfit = totalProfit;
 	}
 
-	public HistoryOrder getHistoryOrder() {
-		return historyOrder;
+	public Long getHistoryId() {
+		return historyId;
 	}
 
-	public void setHistoryOrder(HistoryOrder historyOrder) {
-		this.historyOrder = historyOrder;
+	public void setHistoryId(Long historyId) {
+		this.historyId = historyId;
 	}
+	
+	
 
-}
+	}
