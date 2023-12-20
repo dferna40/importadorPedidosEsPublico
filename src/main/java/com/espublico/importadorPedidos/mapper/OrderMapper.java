@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.espublico.importadorPedidos.dto.HistoryOrderDTO;
 import com.espublico.importadorPedidos.dto.OrderDTO;
 import com.espublico.importadorPedidos.model.HistoryOrder;
 import com.espublico.importadorPedidos.model.Order;
