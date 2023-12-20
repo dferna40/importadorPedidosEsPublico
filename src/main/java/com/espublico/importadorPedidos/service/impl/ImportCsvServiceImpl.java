@@ -13,66 +13,78 @@ import org.springframework.stereotype.Service;
 
 import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
 import com.espublico.importadorPedidos.mapper.PurchaseOrderMapper;
+import com.espublico.importadorPedidos.model.HistoryOrder;
 import com.espublico.importadorPedidos.model.PurchaseOrder;
-import com.espublico.importadorPedidos.repository.OrderRepository;
+import com.espublico.importadorPedidos.repository.HistoryOrderRepository;
+import com.espublico.importadorPedidos.repository.PurchaseOrderRepository;
 import com.espublico.importadorPedidos.service.ImportCsvService;
 import com.espublico.importadorPedidos.util.CsvDataValidator;
+
+import jakarta.transaction.Transactional;
 
 @Service("importCsvService")
 public class ImportCsvServiceImpl implements ImportCsvService {
 
 	@Autowired
-	@Qualifier("orderMapper")
-	private PurchaseOrderMapper orderMapper;
+	@Qualifier("purchaseOrderMapper")
+	private PurchaseOrderMapper purchaseOrderMapper;
 
 	@Autowired
-	@Qualifier("orderRepository")
-	private OrderRepository orderRepository;
+	@Qualifier("purchaseOrderRepository")
+	private PurchaseOrderRepository purchaseOrderRepository;
+
+	@Autowired
+	@Qualifier("historyOrderRepository")
+	private HistoryOrderRepository historyOrderRepository;
 
 	List<String> errorMessages = new ArrayList<>();
-	
+
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
 	public List<String> processCsvFile(BufferedReader reader) throws IOException {
-		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		List<PurchaseOrderDTO> orders = new ArrayList<>();
-		List<PurchaseOrder> modelOrders = new ArrayList<>();
-		String line;
-		while ((line = reader.readLine()) != null) {
-			// Procesar cada línea del archivo CSV
-			String[] values = line.split(",");
+	    List<PurchaseOrderDTO> purchaseOrdersDTO = new ArrayList<>();
+	    String line;
 
-			if (validValuesCsv(values, line)) {
-				PurchaseOrderDTO orderDTO = new PurchaseOrderDTO();
+	    // Crear un nuevo HistoryOrder para esta importación
+	    HistoryOrder newHistoryOrder = new HistoryOrder();
+	    newHistoryOrder.setChangeDate(LocalDate.now()); // Configura la fecha actual
+	    newHistoryOrder = historyOrderRepository.save(newHistoryOrder);
 
-				orderDTO.setRegion(values[0]);
-				orderDTO.setCountry(values[1]);
-				orderDTO.setItemType(values[2]);
-				orderDTO.setSalesChannel(values[3]);
-				orderDTO.setOrderPriority(values[4]);
-				LocalDate orderDate = LocalDate.parse(values[5], formatter);
-				orderDTO.setOrderDate(orderDate);
-				LocalDate shipDate = LocalDate.parse(values[7], formatter);
-				orderDTO.setShipDate(shipDate);
-				orderDTO.setOrderId(Long.parseLong(values[6]));
-				orderDTO.setUnitsSold(Integer.parseInt(values[8]));
-				orderDTO.setUnitPrice(Double.parseDouble(values[9]));
-				orderDTO.setUnitCost(Double.parseDouble(values[10]));
-				orderDTO.setTotalRevenue(Double.parseDouble(values[11]));
-				orderDTO.setTotalCost(Double.parseDouble(values[12]));
-				orderDTO.setTotalProfit(Double.parseDouble(values[13]));
-				// En cada iteracion se añade la orden a la lista de ordenes
-				orders.add(orderDTO);
-			}
-		}
-		// Se convierte de dto a model
-		modelOrders = orderMapper.toEntityList(orders);
-		// Guardar en base de datos
-		orderRepository.saveAll(modelOrders);
+	    while ((line = reader.readLine()) != null) {
+	        // Procesar cada línea del archivo CSV
+	        String[] values = line.split(",");
 
-		System.out.println("");
-		return errorMessages;
+					if (validValuesCsv(values, line)) {
+						PurchaseOrderDTO purchaseOrderDTO = new PurchaseOrderDTO();
+						purchaseOrderDTO.setRegion(values[0]);
+						purchaseOrderDTO.setCountry(values[1]);
+						purchaseOrderDTO.setItemType(values[2]);
+						purchaseOrderDTO.setSalesChannel(values[3]);
+						purchaseOrderDTO.setOrderPriority(values[4]);
+						LocalDate orderDate = LocalDate.parse(values[5], formatter);
+						purchaseOrderDTO.setOrderDate(orderDate);
+						LocalDate shipDate = LocalDate.parse(values[7], formatter);
+						purchaseOrderDTO.setShipDate(shipDate);
+						purchaseOrderDTO.setOrderId(Long.parseLong(values[6]));
+						purchaseOrderDTO.setUnitsSold(Integer.parseInt(values[8]));
+						purchaseOrderDTO.setUnitPrice(Double.parseDouble(values[9]));
+						purchaseOrderDTO.setUnitCost(Double.parseDouble(values[10]));
+						purchaseOrderDTO.setTotalRevenue(Double.parseDouble(values[11]));
+						purchaseOrderDTO.setTotalCost(Double.parseDouble(values[12]));
+						purchaseOrderDTO.setTotalProfit(Double.parseDouble(values[13]));
+						// En cada iteracion se añade la orden a la lista de ordenes de pedidos
+						purchaseOrdersDTO.add(purchaseOrderDTO);
+					}
+	    }
 
+	    for (PurchaseOrderDTO dto : purchaseOrdersDTO) {
+	        PurchaseOrder order = purchaseOrderMapper.toEntity(dto);
+	        order.setHistoryOrder(newHistoryOrder); // Asignar el HistoryOrder común a cada PurchaseOrder
+	        savePurchaseOrder(order, newHistoryOrder); // Guardar cada PurchaseOrder con el HistoryOrder común
+	    }
+
+	    System.out.println("");
+	    return errorMessages;
 	}
 
 	private boolean validValuesCsv(String[] values, String line) {
@@ -124,5 +136,13 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 			isValid = false;
 		}
 		return isValid;
+	}
+
+	@Transactional
+	public PurchaseOrder savePurchaseOrder(PurchaseOrder purchaseOrder, HistoryOrder historyOrder) {
+	    // Asociar HistoryOrder con PurchaseOrder
+	    purchaseOrder.setHistoryOrder(historyOrder);
+	    // Guardar PurchaseOrder en la base de datos
+	    return purchaseOrderRepository.save(purchaseOrder);
 	}
 }

@@ -103,11 +103,18 @@
 											Web para importar pedidos <br>desde un fichero externo
 											en formato CSV
 										</p>
-										<button onclick="triggerFileUpload()" class="read_more">Importar pedidos</button>
-										<form th:action="@{/importarPedidos}" method="post" enctype="multipart/form-data" style="display: none;">
-        									<input type="file" id="fileUpload" name="file" onchange="this.form.submit()"/>
-    									</form>
+										<button onclick="triggerFileUpload()" class="read_more">Importar
+											pedidos</button>
+										<form th:action="@{/importarPedidos}" method="post"
+											enctype="multipart/form-data" style="display: none;">
+											<input type="file" id="fileUpload" name="file"
+												onchange="this.form.submit()" />
+										</form>
 										<a class="read_more" href="importar">Historial de pedidos</a>
+										<br> <br>
+										<div th:if="${warningMessage}">
+											<span th:text="${warningMessage}"></span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -116,7 +123,7 @@
 				</div>
 			</div>
 
-			
+
 		</div>
 	</section>
 	<!-- end banner -->
@@ -130,19 +137,26 @@
 							<img src="images/logo_resumen-sin_fondo.png" alt="#" width="50"
 								height="70">Historial de <span class="yellow">pedidos</span>
 						</h2>
-						<p>Explore y analice rápidamente sus datos de pedidos: nuestra
-							aplicación ofrece una visión clara y detallada del historial de
-							pedidos por tipo, categorizados según distintas columnas. Ideal
-							para una gestión eficiente y un análisis profundo de su actividad
-							comercial.</p>
+						<p>Acceda rápidamente a cada importación seleccionandolo en la
+							tabla. Ideal para una gestión eficiente y un análisis profundo de
+							su actividad comercial.</p>
 					</div>
 				</div>
 				<div class="col-md-10 offset-md-1">
-					<div class="about_img">
-						<figure>
-							<img src="images/about_img.png" alt="#" />
-						</figure>
-					</div>
+					<table id="historyTable" class="display">
+						<thead>
+							<tr>
+								<th>History ID</th>
+								<th>Change Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="history : ${historyOrders}">
+								<td th:text="${history.historyId}"></td>
+								<td th:text="${history.changeDate}"></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -219,6 +233,9 @@
 	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="js/custom.js"></script>
 	<script>
+		$(document).ready(function() {
+			$('#historyTable').DataTable();
+		});
 		function triggerFileUpload() {
 			document.getElementById('fileUpload').click();
 		}

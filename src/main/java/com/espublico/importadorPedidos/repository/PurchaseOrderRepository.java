@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.espublico.importadorPedidos.model.PurchaseOrder;
 
-@Repository("orderRepository")
-public interface OrderRepository extends JpaRepository<PurchaseOrder, Long> {
+@Repository("purchaseOrderRepository")
+public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long> {
 
 }

@@ -9,7 +9,7 @@ import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
 import com.espublico.importadorPedidos.model.HistoryOrder;
 import com.espublico.importadorPedidos.model.PurchaseOrder;
 
-@Component("orderMapper")
+@Component("purchaseOrderMapper")
 public class PurchaseOrderMapper {
 
 	public PurchaseOrderDTO toDto(PurchaseOrder order) {
