@@ -1,5 +1,26 @@
 package com.espublico.importadorPedidos.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.espublico.importadorPedidos.model.HistoryOrder;
+import com.espublico.importadorPedidos.service.HistoryOrderService;
+
+@Controller
 public class HistoryOrderController {
 
+	@Autowired
+    private HistoryOrderService historyOrderService;
+
+    @GetMapping("/history")
+    public String showHistory(ModelAndView mav) {
+        List<HistoryOrder> historyOrders = historyOrderService.getAllHistoryOrders();
+        mav.addObject("historyOrders", historyOrders);
+        mav.setViewName("index");
+        return "historyView"; // Reemplaza con el nombre de tu vista
+    }
 }

@@ -1,11 +1,11 @@
 package com.espublico.importadorPedidos.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class HistoryOrderDTO {
 
 	private Long historyId;
-	private LocalDate changeDate;
+	private LocalDateTime changeDate;
 
 	// Constructor sin parametros Getters y setters
 
@@ -13,7 +13,7 @@ public class HistoryOrderDTO {
 		super();
 	}
 
-	public HistoryOrderDTO(Long historyId, Long orderId, LocalDate changeDate) {
+	public HistoryOrderDTO(Long historyId, Long orderId, LocalDateTime changeDate) {
 		super();
 		this.historyId = historyId;
 		this.changeDate = changeDate;
@@ -27,11 +27,11 @@ public class HistoryOrderDTO {
 		this.historyId = historyId;
 	}
 
-	public LocalDate getChangeDate() {
+	public LocalDateTime getChangeDate() {
 		return changeDate;
 	}
 
-	public void setChangeDate(LocalDate changeDate) {
+	public void setChangeDate(LocalDateTime changeDate) {
 		this.changeDate = changeDate;
 	}
 

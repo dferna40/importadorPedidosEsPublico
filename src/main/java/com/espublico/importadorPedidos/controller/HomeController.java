@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.espublico.importadorPedidos.model.HistoryOrder;
+import com.espublico.importadorPedidos.service.HistoryOrderService;
 import com.espublico.importadorPedidos.service.ImportCsvService;
 
 @Controller
@@ -27,11 +29,22 @@ public class HomeController {
 	@Autowired
 	@Qualifier("importCsvService")
 	private ImportCsvService importCsvService;
+	
+	@Autowired
+    private HistoryOrderService historyOrderService;
 
 	@GetMapping("/inicio")
-	public String index() {
-		return "index";
-	}
+    public ModelAndView showHistory(ModelAndView mav) {
+        List<HistoryOrder> historyOrders = historyOrderService.getAllHistoryOrders();
+        mav.addObject("historyOrders", historyOrders);
+        mav.setViewName("index");
+        return mav;
+    }
+	
+//	@GetMapping("/inicio")
+//	public String index() {
+//		return "index";
+//	}
 
 	@GetMapping("/importar")
 	public String about() {

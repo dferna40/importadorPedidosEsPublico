@@ -3,6 +3,7 @@ package com.espublico.importadorPedidos.service.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 	    // Crear un nuevo HistoryOrder para esta importación
 	    HistoryOrder newHistoryOrder = new HistoryOrder();
-	    newHistoryOrder.setChangeDate(LocalDate.now()); // Configura la fecha actual
+	    newHistoryOrder.setChangeDate(LocalDateTime.now()); // Configura la fecha actual
 	    newHistoryOrder = historyOrderRepository.save(newHistoryOrder);
 
 	    while ((line = reader.readLine()) != null) {

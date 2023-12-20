@@ -1,6 +1,7 @@
 package com.espublico.importadorPedidos.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -26,7 +27,7 @@ public class HistoryOrder {
     private Set<PurchaseOrder> purchaseOrders;
 
     @Column(name = "change_date")
-    private LocalDate changeDate;
+    private LocalDateTime changeDate;
 
     public HistoryOrder() {
         // Constructor vacío necesario para JPA
@@ -37,7 +38,7 @@ public class HistoryOrder {
     }
 
 
-    public HistoryOrder(Long historyId, Set<PurchaseOrder> purchaseOrders, LocalDate changeDate) {
+    public HistoryOrder(Long historyId, Set<PurchaseOrder> purchaseOrders, LocalDateTime changeDate) {
 		super();
 		this.historyId = historyId;
 		this.purchaseOrders = purchaseOrders;
@@ -55,11 +56,11 @@ public class HistoryOrder {
 
    
 
-    public LocalDate getChangeDate() {
+    public LocalDateTime getChangeDate() {
         return changeDate;
     }
 
-    public void setChangeDate(LocalDate changeDate) {
+    public void setChangeDate(LocalDateTime changeDate) {
         this.changeDate = changeDate;
     }
 
