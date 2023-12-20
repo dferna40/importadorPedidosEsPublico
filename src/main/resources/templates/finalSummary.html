@@ -90,80 +90,48 @@
 	<!-- end header inner -->
 	<!-- end header -->
 	<!-- banner -->
-	<section class="banner_main">
-		<div id="banner1" class="carousel slide" data-ride="carousel">
-			<ol class="carousel-indicators">
-				<li data-target="#banner1" data-slide-to="0" class="active"></li>
-				<li data-target="#banner1" data-slide-to="1"></li>
-				<li data-target="#banner1" data-slide-to="2"></li>
-			</ol>
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="container">
-						<div class="carousel-caption">
-							<div class="row">
-								<div class="col-md-7">
-									<div class="text-bg">
-										<h1>
-											<span class="yellow"> Importador </span> <br>de pedidos
-										</h1>
-										<p>
-											Web para importar pedidos <br>desde un fichero externo
-											en formato CSV
-										</p>
-										<button onclick="triggerFileUpload()" class="read_more">Importar
-											pedidos</button>
-										<form th:action="@{/importarPedidos}" method="post"
-											enctype="multipart/form-data" style="display: none;">
-											<input type="file" id="fileUpload" name="file"
-												onchange="this.form.submit()" />
-										</form>
-										<a class="read_more" href="importar">Historial de pedidos</a>
-										<br> <br>
-										<div th:if="${warningMessage}">
-											<span th:text="${warningMessage}"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+	<!-- end header inner -->
+	<!-- end header -->
+	<div class="blue_bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="titlepage">
+						<h2>
+							<img src="images/logo_resumen-sin_fondo.png" alt="#" width="100"
+								height="120">Resumen <span class="yellow">Final</span>
+						</h2>
 					</div>
 				</div>
 			</div>
-
-
 		</div>
-	</section>
-	<!-- end banner -->
-	<!-- Tabla de historial -->
+	</div>
+	<!-- about section -->
 	<div id="about" class="about">
 		<div class="container">
-			<div class="row justify-content-center">
+			<div class="row">
 				<div class="col-md-10 offset-md-1">
-					<div class="col-md-10 offset-md-1">
-						<div class="titlepage">
-							<h2>
-								<img src="images/logo_resumen-sin_fondo.png" alt="#" width="60"
-									height="80">Historial de <span class="yellow">pedidos</span>
-							</h2>
-							<p>
-								Acceda rápidamente a cada importación seleccionandolo en la
-								tabla.<br> Ideal para una gestión eficiente y un análisis
-								profundo de su actividad comercial.
-							</p>
-						</div>
+					<div class="titlepage">
+						<p>Descubra patrones y tendencias clave en sus pedidos
+							importados a través de nuestro resumen interactivo. Nuestra
+							página le ofrece tablas detalladas basadas en campos específicos,
+							permitiéndole visualizar y comprender el volumen de pedidos en
+							cada categoría. Esta herramienta está diseñada para facilitar el
+							análisis rápido y efectivo de sus datos comerciales.</p>
 					</div>
-					<table id="historyTable" class="display table table-bordered">
+				</div>
+				<div class="col-md-10 offset-md-1">
+					<table id="regionTable" class="display">
 						<thead>
 							<tr>
-								<th>Id de importación</th>
-								<th>Fecha de Importación</th>
+								<th>Region</th>
+								<th>Count</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="history : ${historyOrders}">
-								<td th:text="${history.historyId}"></td>
-								<td th:text="${history.changeDate}"></td>
+							<tr th:each="region : ${regionData}">
+								<td th:text="${region.name}"></td>
+								<td th:text="${region.count}"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -171,6 +139,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- about section -->
 	<!--  footer -->
 	<footer>
 		<div class="footer">
@@ -250,45 +219,71 @@
 
 	<!-- Script de DataTables para paginación y selección de filas -->
 	<script>
-	$(document).ready(function() {
-        var table = $('#historyTable').DataTable({
-            select: {
-                style: 'single'
-            },
-            language: {
-                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-            },
-            columnDefs: [{
-                targets: 1, // La fecha está en la segunda columna (índice 1)
-                render: function(data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        var date = new Date(data);
-                        var day = ("0" + date.getDate()).slice(-2);
-                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-                        var year = date.getFullYear();
-                        var hours = ("0" + date.getHours()).slice(-2);
-                        var minutes = ("0" + date.getMinutes()).slice(-2);
-                        return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
-                    }
-                    return data;
-                }
-            }]
-        });
+		$(document)
+				.ready(
+						function() {
+							var table = $('#historyTable')
+									.DataTable(
+											{
+												select : {
+													style : 'single'
+												},
+												language : {
+													url : "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+												},
+												columnDefs : [ {
+													targets : 1, // La fecha está en la segunda columna (índice 1)
+													render : function(data,
+															type, row) {
+														if (type === 'display'
+																|| type === 'filter') {
+															var date = new Date(
+																	data);
+															var day = ("0" + date
+																	.getDate())
+																	.slice(-2);
+															var month = ("0" + (date
+																	.getMonth() + 1))
+																	.slice(-2);
+															var year = date
+																	.getFullYear();
+															var hours = ("0" + date
+																	.getHours())
+																	.slice(-2);
+															var minutes = ("0" + date
+																	.getMinutes())
+																	.slice(-2);
+															return day + '/'
+																	+ month
+																	+ '/'
+																	+ year
+																	+ ' '
+																	+ hours
+																	+ ':'
+																	+ minutes;
+														}
+														return data;
+													}
+												} ]
+											});
 
-        // Evento para manejar la selección de fila
-        table.on('select', function(e, dt, type, indexes) {
-            if (type === 'row') {
-                var historyId = table.cell(indexes, 0).data();
-                console.log('History ID seleccionado:', historyId);
-                // Aquí puedes añadir la lógica para manejar el ID seleccionado
-            }
-        });
-    });
+							// Evento para manejar la selección de fila
+							table.on('select', function(e, dt, type, indexes) {
+								if (type === 'row') {
+									var historyId = table.cell(indexes, 0)
+											.data();
+									console.log('History ID seleccionado:',
+											historyId);
+									// Aquí puedes añadir la lógica para manejar el ID seleccionado
+								}
+							});
+						});
+
+		$(document).ready(function() {
+			$('#regionTable').DataTable();
+			// Repetir para las demás tablas
+		});
 	</script>
-	<script>
-		function triggerFileUpload() {
-			document.getElementById('fileUpload').click();
-		}
 	</script>
 </body>
 </html>
