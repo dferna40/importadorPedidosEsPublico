@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.espublico.importadorPedidos.model.HistoryOrder;
-import com.espublico.importadorPedidos.service.HistoryOrderService;
+import com.espublico.importadorPedidos.service.impl.HistoryOrderServiceImpl;
 
 @Controller
 public class HistoryOrderController {
@@ -18,7 +18,7 @@ public class HistoryOrderController {
 	private static final Logger logger = LoggerFactory.getLogger(HistoryOrderController.class);
 
 	@Autowired
-    private HistoryOrderService historyOrderService;
+    private HistoryOrderServiceImpl historyOrderService;
 
     @GetMapping("/history")
     public String showHistory(ModelAndView mav) {
