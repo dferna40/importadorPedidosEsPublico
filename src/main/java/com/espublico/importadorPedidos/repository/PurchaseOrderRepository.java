@@ -12,19 +12,23 @@ import com.espublico.importadorPedidos.model.PurchaseOrder;
 @Repository("purchaseOrderRepository")
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long> {
 	
-	@Query("SELECT p.country, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idMaxHistory GROUP BY p.country")
-	List<Object[]> countPurchaseOrdersByCountryAndHistoryId(@Param("idMaxHistory") Long historyId);
+	@Query("SELECT p.country, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.country")
+	List<Object[]> countPurchaseOrdersByCountryAndHistoryId(@Param("idHistory") Long historyId);
 	
-	@Query("SELECT p.region, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idMaxHistory GROUP BY p.region")
-	List<Object[]> countPurchaseOrdersByRegionAndHistoryId(@Param("idMaxHistory") Long historyId);
+	@Query("SELECT p.region, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.region")
+	List<Object[]> countPurchaseOrdersByRegionAndHistoryId(@Param("idHistory") Long historyId);
 	
-	@Query("SELECT p.itemType, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idMaxHistory GROUP BY p.itemType")
-	List<Object[]> countPurchaseOrdersByItemTypeAndHistoryId(@Param("idMaxHistory") Long historyId);
+	@Query("SELECT p.itemType, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.itemType")
+	List<Object[]> countPurchaseOrdersByItemTypeAndHistoryId(@Param("idHistory") Long historyId);
 	
-	@Query("SELECT p.salesChannel, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idMaxHistory GROUP BY p.salesChannel")
-	List<Object[]> countPurchaseOrdersBySalesChannelAndHistoryId(@Param("idMaxHistory") Long historyId);
+	@Query("SELECT p.salesChannel, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.salesChannel")
+	List<Object[]> countPurchaseOrdersBySalesChannelAndHistoryId(@Param("idHistory") Long historyId);
 	
-	@Query("SELECT p.orderPriority, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idMaxHistory GROUP BY p.orderPriority")
-	List<Object[]> countPurchaseOrdersByOrderPriorityAndHistoryId(@Param("idMaxHistory") Long historyId);
+	@Query("SELECT p.orderPriority, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.orderPriority")
+	List<Object[]> countPurchaseOrdersByOrderPriorityAndHistoryId(@Param("idHistory") Long historyId);
+	
+	@Query("SELECT p FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.orderId")
+	List<PurchaseOrder> findByHistoryOrderIdGroupedByOrderId(@Param("idHistory") Long historyId);
+
 
 }

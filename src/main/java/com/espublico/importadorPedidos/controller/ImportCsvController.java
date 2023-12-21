@@ -55,9 +55,9 @@ public class ImportCsvController {
 					modelAndView.addObject("errors", errorMessages);
 					return modelAndView;
 				}
-				Long idMaxHistory = importCsvService.getIdMaxHistoryOrder();
-				if(idMaxHistory != null) {
-					session.setAttribute("idMaxHistory", idMaxHistory);
+				Long idHistory = importCsvService.getIdMaxHistoryOrder();
+				if(idHistory != null) {
+					session.setAttribute("idHistory", idHistory);
 				}
 				modelAndView.setViewName("redirect:/resumenFinal");
 			} catch (IOException ioe) {

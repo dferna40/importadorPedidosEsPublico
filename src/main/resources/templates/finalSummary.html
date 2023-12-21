@@ -99,7 +99,8 @@
 					<div class="titlepage">
 						<h2>
 							<img src="images/logo_resumen-sin_fondo.png" alt="#" width="100"
-								height="120"><span style="color: white;">Resumen</span> <span class="yellow">Final</span>
+								height="120"><span style="color: white;">Resumen</span> <span
+								class="yellow">Final</span>
 						</h2>
 					</div>
 				</div>
@@ -137,7 +138,7 @@
 					</table>
 				</div>
 				<div class="col-md-10 offset-md-1">
-				<br>
+					<br>
 					<table id="countryTable" class="display">
 						<thead>
 							<tr>
@@ -154,7 +155,7 @@
 					</table>
 				</div>
 				<div class="col-md-10 offset-md-1">
-				<br>
+					<br>
 					<table id="itemTypeTable" class="display">
 						<thead>
 							<tr>
@@ -170,9 +171,9 @@
 						</tbody>
 					</table>
 				</div>
-				
+
 				<div class="col-md-10 offset-md-1">
-				<br>
+					<br>
 					<table id="salesChannelTable" class="display">
 						<thead>
 							<tr>
@@ -189,7 +190,7 @@
 					</table>
 				</div>
 				<div class="col-md-10 offset-md-1">
-				<br>
+					<br>
 					<table id="orderPriorityTable" class="display">
 						<thead>
 							<tr>
@@ -204,7 +205,14 @@
 							</tr>
 						</tbody>
 					</table>
-					<br><br>
+					<br>
+					<br>
+				</div>
+			</div>
+			<div class="col-md-7 ml-auto">
+				<div class="text-bg">
+					<a class="read_more" href="generarInformeCsv">Generar informe CSV</a> <br>
+					<br>
 				</div>
 			</div>
 		</div>
@@ -349,33 +357,45 @@
 							});
 						});
 
-		$(document).ready(function() {
-		    $('#regionTable').DataTable({
-		    	language: {
-	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-	            }
-		    });
-		    $('#countryTable').DataTable({
-		    	language: {
-	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-	            }
-		    });
-		    $('#itemTypeTable').DataTable({
-		    	language: {
-	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-	            }
-		    });
-		    $('#salesChannelTable').DataTable({
-		    	language: {
-	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-	            }
-		    });
-		    $('#orderPriorityTable').DataTable({
-		    	language: {
-	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-	            }
-		    });
-		});
+		$(document)
+				.ready(
+						function() {
+							$('#regionTable')
+									.DataTable(
+											{
+												language : {
+													url : "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+												}
+											});
+							$('#countryTable')
+									.DataTable(
+											{
+												language : {
+													url : "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+												}
+											});
+							$('#itemTypeTable')
+									.DataTable(
+											{
+												language : {
+													url : "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+												}
+											});
+							$('#salesChannelTable')
+									.DataTable(
+											{
+												language : {
+													url : "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+												}
+											});
+							$('#orderPriorityTable')
+									.DataTable(
+											{
+												language : {
+													url : "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+												}
+											});
+						});
 	</script>
 	</script>
 </body>

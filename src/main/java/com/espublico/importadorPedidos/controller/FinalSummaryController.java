@@ -33,15 +33,15 @@ public class FinalSummaryController {
 	@GetMapping("/resumenFinal")
 	public ModelAndView showFinalSummary(ModelAndView mav, HttpSession session) {
 		// Recuperar el objeto de la sesión
-		Long idMaxHistorico = (Long) session.getAttribute("idMaxHistory");
+		Long idHistory = (Long) session.getAttribute("idHistory");
 
 		// Lógica con el valor recuperado
-		if (idMaxHistorico != null) {
-			Map<String, Long> countryOrderCounts = purchaseOrderService.countPurchaseOrdersByCountryAndHistoryId(idMaxHistorico);
-			Map<String, Long> regionOrderCounts = purchaseOrderService.countPurchaseOrdersByRegionAndHistoryId(idMaxHistorico);
-			Map<String, Long> itemTpyeOrderCounts = purchaseOrderService.countPurchaseOrdersByItemTypeAndHistoryId(idMaxHistorico);
-			Map<String, Long> orderPriorityOrderCounts = purchaseOrderService.countPurchaseOrdersByOrderPriorityAndHistoryId(idMaxHistorico);
-			Map<String, Long> salesChannelOrderCounts = purchaseOrderService.countPurchaseOrdersBySalesChannelAndHistoryId(idMaxHistorico);
+		if (idHistory != null) {
+			Map<String, Long> countryOrderCounts = purchaseOrderService.countPurchaseOrdersByCountryAndHistoryId(idHistory);
+			Map<String, Long> regionOrderCounts = purchaseOrderService.countPurchaseOrdersByRegionAndHistoryId(idHistory);
+			Map<String, Long> itemTpyeOrderCounts = purchaseOrderService.countPurchaseOrdersByItemTypeAndHistoryId(idHistory);
+			Map<String, Long> orderPriorityOrderCounts = purchaseOrderService.countPurchaseOrdersByOrderPriorityAndHistoryId(idHistory);
+			Map<String, Long> salesChannelOrderCounts = purchaseOrderService.countPurchaseOrdersBySalesChannelAndHistoryId(idHistory);
 
 			List<CountryOrderCountDTO> countryOrderCountList = new ArrayList<>();
 			List<RegionOrderCountDTO> regionOrderCountList = new ArrayList<>();

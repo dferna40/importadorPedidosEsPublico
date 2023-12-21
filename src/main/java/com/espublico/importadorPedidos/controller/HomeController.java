@@ -46,11 +46,4 @@ public class HomeController {
         mav.setViewName("index");
         return mav;
     }
-	
-
-	@GetMapping("/importar")
-	public String finalSummary() {
-		return "finalSummary";
-	}
-
 }
