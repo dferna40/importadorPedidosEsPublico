@@ -7,4 +7,6 @@ import java.util.List;
 public interface ImportCsvService {
 
 	List<String> processCsvFile(BufferedReader reader) throws IOException;
+	
+	Long getIdMaxHistoryOrder();
 }

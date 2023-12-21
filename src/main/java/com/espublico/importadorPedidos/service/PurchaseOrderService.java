@@ -4,13 +4,13 @@ import java.util.Map;
 
 public interface PurchaseOrderService {
 
-	Map<String, Long> countPurchaseOrdersByCountry();
+	Map<String, Long> countPurchaseOrdersByCountryAndHistoryId(Long historyId);
 	
-	Map<String, Long> countPurchaseOrdersByRegion();
+	Map<String, Long> countPurchaseOrdersByRegionAndHistoryId(Long historyId);
 	
-	Map<String, Long> countPurchaseOrdersByItemType();
+	Map<String, Long> countPurchaseOrdersByItemTypeAndHistoryId(Long historyId);
 	
-	Map<String, Long> countPurchaseOrdersBySalesChannel();
+	Map<String, Long> countPurchaseOrdersBySalesChannelAndHistoryId(Long historyId);
 	
-	Map<String, Long> countPurchaseOrdersByOrderPriority();
+	Map<String, Long> countPurchaseOrdersByOrderPriorityAndHistoryId(Long historyId);
 }

@@ -220,4 +220,9 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 		}
 		return isValid;
 	}
+
+	@Override
+	public Long getIdMaxHistoryOrder() {
+		return historyOrderRepository.findMaxId();
+	}
 }

@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.espublico.importadorPedidos.service.ImportCsvService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class ImportCsvController {
 	
@@ -35,9 +37,8 @@ public class ImportCsvController {
 	 * @return vista de resumen final
 	 */
 	@PostMapping("/importarPedidos")
-	public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file) {
+	public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file, HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
-
 		if (file.isEmpty()) {
 			//Si el fichero esta vacio vuelve a la pagina de inicio
 			modelAndView.setViewName("index");
@@ -54,7 +55,10 @@ public class ImportCsvController {
 					modelAndView.addObject("errors", errorMessages);
 					return modelAndView;
 				}
-
+				Long idMaxHistory = importCsvService.getIdMaxHistoryOrder();
+				if(idMaxHistory != null) {
+					session.setAttribute("idMaxHistory", idMaxHistory);
+				}
 				modelAndView.setViewName("redirect:/resumenFinal");
 			} catch (IOException ioe) {
 				logger.error("Error al procesar el archivo", ioe);

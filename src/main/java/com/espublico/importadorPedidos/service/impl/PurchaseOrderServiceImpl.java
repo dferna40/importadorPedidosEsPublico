@@ -17,8 +17,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	private PurchaseOrderRepository purchaseOrderRepository;
 	
 	@Override
-	public Map<String, Long> countPurchaseOrdersByCountry() {
-		 List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByCountry();
+	public Map<String, Long> countPurchaseOrdersByCountryAndHistoryId(Long historyId) {
+		 List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByCountryAndHistoryId(historyId);
 		    Map<String, Long> countryOrderCounts = new HashMap<>();
 		    for (Object[] result : results) {
 		        String country = (String) result[0];
@@ -29,8 +29,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	}
 
 	@Override
-	public Map<String, Long> countPurchaseOrdersByRegion() {
-		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByRegion();
+	public Map<String, Long> countPurchaseOrdersByRegionAndHistoryId(Long historyId) {
+		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByRegionAndHistoryId(historyId);
 	    Map<String, Long> regionOrderCounts = new HashMap<>();
 	    for (Object[] result : results) {
 	        String region = (String) result[0];
@@ -41,8 +41,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	}
 
 	@Override
-	public Map<String, Long> countPurchaseOrdersByItemType() {
-		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByItemType();
+	public Map<String, Long> countPurchaseOrdersByItemTypeAndHistoryId(Long historyId) {
+		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByItemTypeAndHistoryId(historyId);
 	    Map<String, Long> itemTypeOrderCounts = new HashMap<>();
 	    for (Object[] result : results) {
 	        String itemType = (String) result[0];
@@ -53,8 +53,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	}
 
 	@Override
-	public Map<String, Long> countPurchaseOrdersBySalesChannel() {
-		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersBySalesChannel();
+	public Map<String, Long> countPurchaseOrdersBySalesChannelAndHistoryId(Long historyId) {
+		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersBySalesChannelAndHistoryId(historyId);
 	    Map<String, Long> salesChannelOrderCounts = new HashMap<>();
 	    for (Object[] result : results) {
 	        String salesChannel = (String) result[0];
@@ -65,8 +65,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	}
 
 	@Override
-	public Map<String, Long> countPurchaseOrdersByOrderPriority() {
-		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByOrderPriority();
+	public Map<String, Long> countPurchaseOrdersByOrderPriorityAndHistoryId(Long historyId) {
+		List<Object[]> results = purchaseOrderRepository.countPurchaseOrdersByOrderPriorityAndHistoryId(historyId);
 	    Map<String, Long> orderPriorityOrderCounts = new HashMap<>();
 	    for (Object[] result : results) {
 	        String orderPriority = (String) result[0];

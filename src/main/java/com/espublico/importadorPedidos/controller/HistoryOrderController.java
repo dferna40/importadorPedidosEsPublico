@@ -25,6 +25,6 @@ public class HistoryOrderController {
         List<HistoryOrder> historyOrders = historyOrderService.getAllHistoryOrders();
         mav.addObject("historyOrders", historyOrders);
         mav.setViewName("index");
-        return "historyView"; // Reemplaza con el nombre de tu vista
+        return "historyView";
     }
 }
