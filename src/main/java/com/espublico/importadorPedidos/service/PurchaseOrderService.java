@@ -2,9 +2,9 @@ package com.espublico.importadorPedidos.service;
 
 import java.util.List;
 
-import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
+import com.espublico.importadorPedidos.model.PurchaseOrder;
 
 public interface PurchaseOrderService {
 
-	 List<PurchaseOrderDTO> findAllOrders();
+	 List<PurchaseOrder> findAllOrders();
 }

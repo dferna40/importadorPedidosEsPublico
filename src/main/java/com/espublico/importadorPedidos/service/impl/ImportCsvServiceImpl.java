@@ -23,6 +23,14 @@ import com.espublico.importadorPedidos.util.CsvDataValidator;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * Servicio para importar datos de pedidos desde un archivo CSV y guardarlos en la base de datos.
+ *
+ * Esta clase proporciona la funcionalidad para procesar archivos CSV, transformar
+ * los datos en objetos DTO (Data Transfer Object) y luego convertir estos DTO en
+ * entidades para guardarlos en la base de datos. Además, gestiona la creación de
+ * registros de historial asociados a cada importación para un seguimiento efectivo.
+ */
 @Service("importCsvService")
 public class ImportCsvServiceImpl implements ImportCsvService {
 
@@ -42,52 +50,126 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
+	/**
+	 * Procesa un archivo CSV línea por línea y guarda los pedidos en la base de datos.
+	 *
+	 * Este método lee un archivo CSV a través de un BufferedReader, analiza cada línea
+	 * y transforma la información en objetos PurchaseOrderDTO. Cada objeto DTO se
+	 * valida y luego se convierte en una entidad PurchaseOrder para su persistencia en
+	 * la base de datos. Además, se asocia cada pedido con un registro único de historial
+	 * (HistoryOrder) que representa la importación de este conjunto de pedidos.
+	 *
+	 * @param reader El BufferedReader que proporciona el contenido del archivo CSV.
+	 * @return List<String> Una lista de mensajes de error que se generaron durante el
+	 *         proceso de validación de los datos del CSV.
+	 * @throws IOException Si ocurre un error de entrada/salida al leer el archivo CSV.
+	 *
+	 * El método crea inicialmente un nuevo HistoryOrder con la fecha y hora actuales
+	 * para marcar el momento de la importación. Luego, procesa cada línea del CSV,
+	 * validando los campos y convirtiéndolos en PurchaseOrderDTO. Los DTO válidos se
+	 * convierten en entidades PurchaseOrder, se les asigna el HistoryOrder común y se
+	 * guardan en la base de datos. Los errores encontrados durante la validación se
+	 * agregan a la lista 'errorMessages', que se retorna al final del proceso.
+	 */
 	public List<String> processCsvFile(BufferedReader reader) throws IOException {
-	    List<PurchaseOrderDTO> purchaseOrdersDTO = new ArrayList<>();
-	    String line;
+		List<PurchaseOrderDTO> purchaseOrdersDTO = new ArrayList<>();
+		String line;
 
-	    // Crear un nuevo HistoryOrder para esta importación
-	    HistoryOrder newHistoryOrder = new HistoryOrder();
-	    newHistoryOrder.setChangeDate(LocalDateTime.now()); // Configura la fecha actual
-	    newHistoryOrder = historyOrderRepository.save(newHistoryOrder);
+		// Crear un nuevo HistoryOrder para esta importación
+		HistoryOrder newHistoryOrder = new HistoryOrder();
+		newHistoryOrder.setChangeDate(LocalDateTime.now()); // Configura la fecha actual
+		newHistoryOrder = historyOrderRepository.save(newHistoryOrder);
 
-	    while ((line = reader.readLine()) != null) {
-	        // Procesar cada línea del archivo CSV
-	        String[] values = line.split(",");
+		while ((line = reader.readLine()) != null) {
+			// Procesar cada línea del archivo CSV
+			String[] values = line.split(",");
 
-					if (validValuesCsv(values, line)) {
-						PurchaseOrderDTO purchaseOrderDTO = new PurchaseOrderDTO();
-						purchaseOrderDTO.setRegion(values[0]);
-						purchaseOrderDTO.setCountry(values[1]);
-						purchaseOrderDTO.setItemType(values[2]);
-						purchaseOrderDTO.setSalesChannel(values[3]);
-						purchaseOrderDTO.setOrderPriority(values[4]);
-						LocalDate orderDate = LocalDate.parse(values[5], formatter);
-						purchaseOrderDTO.setOrderDate(orderDate);
-						LocalDate shipDate = LocalDate.parse(values[7], formatter);
-						purchaseOrderDTO.setShipDate(shipDate);
-						purchaseOrderDTO.setOrderId(Long.parseLong(values[6]));
-						purchaseOrderDTO.setUnitsSold(Integer.parseInt(values[8]));
-						purchaseOrderDTO.setUnitPrice(Double.parseDouble(values[9]));
-						purchaseOrderDTO.setUnitCost(Double.parseDouble(values[10]));
-						purchaseOrderDTO.setTotalRevenue(Double.parseDouble(values[11]));
-						purchaseOrderDTO.setTotalCost(Double.parseDouble(values[12]));
-						purchaseOrderDTO.setTotalProfit(Double.parseDouble(values[13]));
-						// En cada iteracion se añade la orden a la lista de ordenes de pedidos
-						purchaseOrdersDTO.add(purchaseOrderDTO);
-					}
-	    }
+			if (validValuesCsv(values, line)) {
+				PurchaseOrderDTO purchaseOrderDTO = new PurchaseOrderDTO();
+				purchaseOrderDTO.setRegion(values[0]);
+				purchaseOrderDTO.setCountry(values[1]);
+				purchaseOrderDTO.setItemType(values[2]);
+				purchaseOrderDTO.setSalesChannel(values[3]);
+				purchaseOrderDTO.setOrderPriority(values[4]);
+				LocalDate orderDate = LocalDate.parse(values[5], formatter);
+				purchaseOrderDTO.setOrderDate(orderDate);
+				LocalDate shipDate = LocalDate.parse(values[7], formatter);
+				purchaseOrderDTO.setShipDate(shipDate);
+				purchaseOrderDTO.setOrderId(Long.parseLong(values[6]));
+				purchaseOrderDTO.setUnitsSold(Integer.parseInt(values[8]));
+				purchaseOrderDTO.setUnitPrice(Double.parseDouble(values[9]));
+				purchaseOrderDTO.setUnitCost(Double.parseDouble(values[10]));
+				purchaseOrderDTO.setTotalRevenue(Double.parseDouble(values[11]));
+				purchaseOrderDTO.setTotalCost(Double.parseDouble(values[12]));
+				purchaseOrderDTO.setTotalProfit(Double.parseDouble(values[13]));
+				// En cada iteracion se añade la orden a la lista de ordenes de pedidos
+				purchaseOrdersDTO.add(purchaseOrderDTO);
+			}
+		}
 
-	    for (PurchaseOrderDTO dto : purchaseOrdersDTO) {
-	        PurchaseOrder order = purchaseOrderMapper.toEntity(dto);
-	        order.setHistoryOrder(newHistoryOrder); // Asignar el HistoryOrder común a cada PurchaseOrder
-	        savePurchaseOrder(order, newHistoryOrder); // Guardar cada PurchaseOrder con el HistoryOrder común
-	    }
-
-	    System.out.println("");
-	    return errorMessages;
+		for (PurchaseOrderDTO dto : purchaseOrdersDTO) {
+			PurchaseOrder order = purchaseOrderMapper.toEntity(dto);
+			order.setHistoryOrder(newHistoryOrder); // Asignar el HistoryOrder común a cada PurchaseOrder
+			savePurchaseOrder(order, newHistoryOrder); // Guardar cada PurchaseOrder con el HistoryOrder común
+		}
+		return errorMessages;
 	}
 
+	/**
+	 * Guarda un pedido de compra (PurchaseOrder) en la base de datos con una
+	 * asociación a un historial específico (HistoryOrder). Este método asegura que
+	 * la asociación entre el pedido de compra y su historial correspondiente sea
+	 * mantenida correctamente en la base de datos.
+	 *
+	 * @param purchaseOrder El pedido de compra que se va a guardar. Este objeto
+	 *                      debe contener todos los datos relevantes del pedido que
+	 *                      se desea almacenar.
+	 * @param historyOrder  El historial asociado con el pedido de compra. Este
+	 *                      historial representa un registro específico en la tabla
+	 *                      de historial (order_history) al que se asocia el pedido
+	 *                      de compra.
+	 * @return PurchaseOrder El objeto PurchaseOrder después de ser guardado en la
+	 *         base de datos. Esto incluye cualquier actualización que haya ocurrido
+	 *         durante el proceso de guardado, como la generación del ID del pedido
+	 *         de compra.
+	 *
+	 * @Transactional Asegura que la operación de guardado se maneje como una
+	 *                transacción completa. Esto significa que si ocurre algún error
+	 *                durante el proceso de guardado, la transacción se revertirá
+	 *                para mantener la integridad de los datos en la base de datos.
+	 */
+	@Transactional
+	public PurchaseOrder savePurchaseOrder(PurchaseOrder purchaseOrder, HistoryOrder historyOrder) {
+		// Asociar HistoryOrder con PurchaseOrder
+		purchaseOrder.setHistoryOrder(historyOrder);
+		// Guardar PurchaseOrder en la base de datos
+		return purchaseOrderRepository.save(purchaseOrder);
+	}
+
+	/**
+	 * Valida los valores de una línea específica del archivo CSV.
+	 *
+	 * Este método verifica que cada campo de una línea del CSV cumpla con las
+	 * validaciones específicas dependiendo de su tipo y contenido esperado. Se
+	 * utilizan distintas validaciones para cadenas, fechas y números. Cada
+	 * validación se realiza mediante el uso de métodos específicos de la clase
+	 * CsvDataValidator.
+	 *
+	 * @param values Un array de String que contiene todos los campos de una línea
+	 *               del CSV. Cada elemento del array representa un campo específico
+	 *               del CSV.
+	 * @param line   La línea completa del CSV que se está validando, utilizada para
+	 *               generar mensajes de error más informativos en caso de que
+	 *               alguno de los campos no sea válido.
+	 * @return boolean Retorna 'true' si todos los campos de la línea son válidos,
+	 *         de lo contrario retorna 'false'.
+	 *
+	 *         El método actualiza la lista 'errorMessages' con mensajes
+	 *         descriptivos en caso de encontrar valores inválidos en alguno de los
+	 *         campos. Esta lista se utilizadara posteriormente para informar al
+	 *         usuario sobre los errores específicos encontrados durante el
+	 *         procesamiento del archivo CSV.
+	 */
 	private boolean validValuesCsv(String[] values, String line) {
 
 		boolean isValid = true;
@@ -137,13 +219,5 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 			isValid = false;
 		}
 		return isValid;
-	}
-
-	@Transactional
-	public PurchaseOrder savePurchaseOrder(PurchaseOrder purchaseOrder, HistoryOrder historyOrder) {
-	    // Asociar HistoryOrder con PurchaseOrder
-	    purchaseOrder.setHistoryOrder(historyOrder);
-	    // Guardar PurchaseOrder en la base de datos
-	    return purchaseOrderRepository.save(purchaseOrder);
 	}
 }

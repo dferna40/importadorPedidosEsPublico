@@ -55,12 +55,12 @@ public class ImportCsvController {
 					return modelAndView;
 				}
 
-				modelAndView.setViewName("redirect:/importar");
+				modelAndView.setViewName("redirect:/resumenFinal");
 			} catch (IOException ioe) {
 				logger.error("Error al procesar el archivo", ioe);
 				modelAndView.setViewName("errorView");
 				modelAndView.addObject("errorMessage",
-						"Hubo un error al procesar el archivo. Por favor intente nuevamente.");
+						"Hubo un error al procesar el archivo CSV. Por favor intente nuevamente.");
 			}
 		}
 
