@@ -1,12 +1,16 @@
 package com.espublico.importadorPedidos.service;
 
-import java.util.List;
-
-import com.espublico.importadorPedidos.model.PurchaseOrder;
+import java.util.Map;
 
 public interface PurchaseOrderService {
 
-	 List<PurchaseOrder> findAllOrders();
-	 
-	 
+	Map<String, Long> countPurchaseOrdersByCountry();
+	
+	Map<String, Long> countPurchaseOrdersByRegion();
+	
+	Map<String, Long> countPurchaseOrdersByItemType();
+	
+	Map<String, Long> countPurchaseOrdersBySalesChannel();
+	
+	Map<String, Long> countPurchaseOrdersByOrderPriority();
 }
