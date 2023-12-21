@@ -99,7 +99,7 @@
 					<div class="titlepage">
 						<h2>
 							<img src="images/logo_resumen-sin_fondo.png" alt="#" width="100"
-								height="120">Resumen <span class="yellow">Final</span>
+								height="120"><span style="color: white;">Resumen</span> <span class="yellow">Final</span>
 						</h2>
 					</div>
 				</div>
@@ -124,17 +124,87 @@
 					<table id="regionTable" class="display">
 						<thead>
 							<tr>
-								<th>Region</th>
-								<th>Count</th>
+								<th>Región</th>
+								<th>Número de regiones</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="region : ${regionData}">
-								<td th:text="${region.name}"></td>
-								<td th:text="${region.count}"></td>
+							<tr th:each="region : ${regionOrderCountList}">
+								<td th:text="${region.clave}"></td>
+								<td th:text="${region.valor}"></td>
 							</tr>
 						</tbody>
 					</table>
+				</div>
+				<div class="col-md-10 offset-md-1">
+				<br>
+					<table id="countryTable" class="display">
+						<thead>
+							<tr>
+								<th>Pais</th>
+								<th>Número de paises</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="country : ${countryOrderCountList}">
+								<td th:text="${country.clave}"></td>
+								<td th:text="${country.valor}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-10 offset-md-1">
+				<br>
+					<table id="itemTypeTable" class="display">
+						<thead>
+							<tr>
+								<th>Tipo de artículo</th>
+								<th>Número de artículos</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="itemType : ${itemTpyeOrderCountList}">
+								<td th:text="${itemType.clave}"></td>
+								<td th:text="${itemType.valor}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="col-md-10 offset-md-1">
+				<br>
+					<table id="salesChannelTable" class="display">
+						<thead>
+							<tr>
+								<th>Canal de Ventas</th>
+								<th>Número de canales de ventas</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="salesChannel : ${salesChannelOrderCountList}">
+								<td th:text="${salesChannel.clave}"></td>
+								<td th:text="${salesChannel.valor}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-10 offset-md-1">
+				<br>
+					<table id="orderPriorityTable" class="display">
+						<thead>
+							<tr>
+								<th>Prioridad del pedido</th>
+								<th>Número de prioridades del pedido</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="orderPriority : ${orderPriorityOrderCountList}">
+								<td th:text="${orderPriority.clave}"></td>
+								<td th:text="${orderPriority.valor}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<br><br>
 				</div>
 			</div>
 		</div>
@@ -280,8 +350,31 @@
 						});
 
 		$(document).ready(function() {
-			$('#regionTable').DataTable();
-			// Repetir para las demás tablas
+		    $('#regionTable').DataTable({
+		    	language: {
+	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+	            }
+		    });
+		    $('#countryTable').DataTable({
+		    	language: {
+	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+	            }
+		    });
+		    $('#itemTypeTable').DataTable({
+		    	language: {
+	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+	            }
+		    });
+		    $('#salesChannelTable').DataTable({
+		    	language: {
+	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+	            }
+		    });
+		    $('#orderPriorityTable').DataTable({
+		    	language: {
+	                url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+	            }
+		    });
 		});
 	</script>
 	</script>
