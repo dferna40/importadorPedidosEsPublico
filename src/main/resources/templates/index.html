@@ -75,10 +75,6 @@
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item active"><a class="nav-link"
 										href="inicio">Inicio</a></li>
-									<li class="nav-item"><a class="nav-link" href="importar">Importar
-											pedidos</a></li>
-									<li class="nav-item"><a class="nav-link" href="importar">Historial
-											de importaciones</a></li>
 								</ul>
 							</div>
 						</nav>
@@ -129,8 +125,6 @@
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</section>
 	<!-- end banner -->
@@ -143,7 +137,7 @@
 						<div class="titlepage">
 							<h2>
 								<img src="images/logo_resumen-sin_fondo.png" alt="#" width="60"
-									height="80">Historial de <span class="yellow">pedidos</span>
+									height="80">Historial de <span class="yellow">importaciones</span>
 							</h2>
 							<p>
 								Acceda rápidamente a cada importación seleccionandolo en la
@@ -161,7 +155,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="history : ${historyOrders}">
-								<td th:text="${history.historyId}"></td>
+								<td><a href="resumenFinal" class="history-link" th-data-historyId="${history.historyId}">[[${history.historyId}]]</a></td>
 								<td th:text="${history.changeDate}"></td>
 							</tr>
 						</tbody>
@@ -169,6 +163,7 @@
 				</div>
 			</div>
 		</div>
+		<br><br>
 	</div>
 	<!--  footer -->
 	<footer>
@@ -193,8 +188,6 @@
 							<h3>Enlaces mas importantes</h3>
 							<ul class="use_link">
 								<li class="active"><a href="inicio">Inicio</a></li>
-								<li><a href="importar">Importar pedidos</a></li>
-								<li><a href="importar">Resumen pedidos</a></li>
 							</ul>
 						</div>
 					</div>
@@ -222,7 +215,7 @@
 						<div class="col-md-12">
 							<p>
 								Importador de pedidos© 2023 All Rights Reserved. Design by<a
-									href="https://html.design/"> David Fernández Ramírez</a>
+									href="https://www.linkedin.com/in/david-fernandez-ramirez-ba401128/"> David Fernández Ramírez</a>
 							</p>
 						</div>
 					</div>
