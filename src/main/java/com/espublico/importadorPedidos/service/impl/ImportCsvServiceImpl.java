@@ -24,12 +24,14 @@ import com.espublico.importadorPedidos.util.CsvDataValidator;
 import jakarta.transaction.Transactional;
 
 /**
- * Servicio para importar datos de pedidos desde un archivo CSV y guardarlos en la base de datos.
+ * Servicio para importar datos de pedidos desde un archivo CSV y guardarlos en
+ * la base de datos.
  *
- * Esta clase proporciona la funcionalidad para procesar archivos CSV, transformar
- * los datos en objetos DTO (Data Transfer Object) y luego convertir estos DTO en
- * entidades para guardarlos en la base de datos. Además, gestiona la creación de
- * registros de historial asociados a cada importación para un seguimiento efectivo.
+ * Esta clase proporciona la funcionalidad para procesar archivos CSV,
+ * transformar los datos en objetos DTO (Data Transfer Object) y luego convertir
+ * estos DTO en entidades para guardarlos en la base de datos. Además, gestiona
+ * la creación de registros de historial asociados a cada importación para un
+ * seguimiento efectivo.
  */
 @Service("importCsvService")
 public class ImportCsvServiceImpl implements ImportCsvService {
@@ -51,25 +53,29 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
 	/**
-	 * Procesa un archivo CSV línea por línea y guarda los pedidos en la base de datos.
+	 * Procesa un archivo CSV línea por línea y guarda los pedidos en la base de
+	 * datos.
 	 *
-	 * Este método lee un archivo CSV a través de un BufferedReader, analiza cada línea
-	 * y transforma la información en objetos PurchaseOrderDTO. Cada objeto DTO se
-	 * valida y luego se convierte en una entidad PurchaseOrder para su persistencia en
-	 * la base de datos. Además, se asocia cada pedido con un registro único de historial
-	 * (HistoryOrder) que representa la importación de este conjunto de pedidos.
+	 * Este método lee un archivo CSV a través de un BufferedReader, analiza cada
+	 * línea y transforma la información en objetos PurchaseOrderDTO. Cada objeto
+	 * DTO se valida y luego se convierte en una entidad PurchaseOrder para su
+	 * persistencia en la base de datos. Además, se asocia cada pedido con un
+	 * registro único de historial (HistoryOrder) que representa la importación de
+	 * este conjunto de pedidos.
 	 *
+	 * El método crea inicialmente un nuevo HistoryOrder con la fecha y hora
+	 * actuales para marcar el momento de la importación. Luego, procesa cada línea
+	 * del CSV, validando los campos y convirtiéndolos en PurchaseOrderDTO. Los DTO
+	 * válidos se convierten en entidades PurchaseOrder, se les asigna el
+	 * HistoryOrder común y se guardan en la base de datos. Los errores encontrados
+	 * durante la validación se agregan a la lista 'errorMessages', que se retorna
+	 * al final del proceso.
+	 * 
 	 * @param reader El BufferedReader que proporciona el contenido del archivo CSV.
-	 * @return List<String> Una lista de mensajes de error que se generaron durante el
-	 *         proceso de validación de los datos del CSV.
-	 * @throws IOException Si ocurre un error de entrada/salida al leer el archivo CSV.
-	 *
-	 * El método crea inicialmente un nuevo HistoryOrder con la fecha y hora actuales
-	 * para marcar el momento de la importación. Luego, procesa cada línea del CSV,
-	 * validando los campos y convirtiéndolos en PurchaseOrderDTO. Los DTO válidos se
-	 * convierten en entidades PurchaseOrder, se les asigna el HistoryOrder común y se
-	 * guardan en la base de datos. Los errores encontrados durante la validación se
-	 * agregan a la lista 'errorMessages', que se retorna al final del proceso.
+	 * @return List<String> Una lista de mensajes de error que se generaron durante
+	 *         el proceso de validación de los datos del CSV.
+	 * @throws IOException Si ocurre un error de entrada/salida al leer el archivo
+	 *                     CSV.
 	 */
 	public List<String> processCsvFile(BufferedReader reader) throws IOException {
 		List<PurchaseOrderDTO> purchaseOrdersDTO = new ArrayList<>();

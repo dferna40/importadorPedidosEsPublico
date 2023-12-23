@@ -2,69 +2,73 @@ package com.espublico.importadorPedidos.dto;
 
 import java.util.List;
 
+/**
+ * DTO para representar un resumen final compuesto. Esta clase encapsula
+ * múltiples listas de resúmenes por país, región, tipo de ítem, prioridad de
+ * orden y canal de ventas. Sirve como un contenedor agregado para transportar
+ * estos datos agrupados en diferentes categorías.
+ */
 public class FinalSummaryDTO {
 
-	private List<CountryOrderCountDTO> countryOrderCounts;
-    private List<RegionOrderCountDTO> regionOrderCounts;
-    private List<ItemTypeOrderCountDTO> itemTypeOrderCounts;
-    private List<OrderPriorityOrderCountDTO> orderPriorityOrderCounts;
-    private List<SalesChannelOrderCountDTO> salesChannelOrderCounts;
-	
-    public FinalSummaryDTO() {
+	private List<CountryFinalSummaryDTO> countryFinalSummary;
+	private List<RegionFinalSummaryDTO> regionFinalSummary;
+	private List<ItemTypeFinalSummaryDTO> itemTypeFinalSummary;
+	private List<OrderPriorityFinalSummaryDTO> orderPriorityFinalSummary;
+	private List<SalesChannelFinalSummaryDTO> salesChannelFinalSummary;
+
+	public FinalSummaryDTO() {
 		super();
 	}
 
-	public FinalSummaryDTO(List<CountryOrderCountDTO> countryOrderCounts,
-			List<RegionOrderCountDTO> regionOrderCounts, List<ItemTypeOrderCountDTO> itemTypeOrderCounts,
-			List<OrderPriorityOrderCountDTO> orderPriorityOrderCounts,
-			List<SalesChannelOrderCountDTO> salesChannelOrderCounts) {
+	public FinalSummaryDTO(List<CountryFinalSummaryDTO> countryFinalSummary,
+			List<RegionFinalSummaryDTO> regionFinalSummary, List<ItemTypeFinalSummaryDTO> itemTypeFinalSummary,
+			List<OrderPriorityFinalSummaryDTO> orderPriorityFinalSummary,
+			List<SalesChannelFinalSummaryDTO> salesChannelFinalSummary) {
 		super();
-		this.countryOrderCounts = countryOrderCounts;
-		this.regionOrderCounts = regionOrderCounts;
-		this.itemTypeOrderCounts = itemTypeOrderCounts;
-		this.orderPriorityOrderCounts = orderPriorityOrderCounts;
-		this.salesChannelOrderCounts = salesChannelOrderCounts;
+		this.countryFinalSummary = countryFinalSummary;
+		this.regionFinalSummary = regionFinalSummary;
+		this.itemTypeFinalSummary = itemTypeFinalSummary;
+		this.orderPriorityFinalSummary = orderPriorityFinalSummary;
+		this.salesChannelFinalSummary = salesChannelFinalSummary;
 	}
 
-	public List<CountryOrderCountDTO> getCountryOrderCounts() {
-		return countryOrderCounts;
+	public List<CountryFinalSummaryDTO> getCountryFinalSummary() {
+		return countryFinalSummary;
 	}
 
-	public void setCountryOrderCounts(List<CountryOrderCountDTO> countryOrderCounts) {
-		this.countryOrderCounts = countryOrderCounts;
+	public void setCountryFinalSummary(List<CountryFinalSummaryDTO> countryFinalSummary) {
+		this.countryFinalSummary = countryFinalSummary;
 	}
 
-	public List<RegionOrderCountDTO> getRegionOrderCounts() {
-		return regionOrderCounts;
+	public List<RegionFinalSummaryDTO> getRegionFinalSummary() {
+		return regionFinalSummary;
 	}
 
-	public void setRegionOrderCounts(List<RegionOrderCountDTO> regionOrderCounts) {
-		this.regionOrderCounts = regionOrderCounts;
+	public void setRegionFinalSummary(List<RegionFinalSummaryDTO> regionFinalSummary) {
+		this.regionFinalSummary = regionFinalSummary;
 	}
 
-	public List<ItemTypeOrderCountDTO> getItemTypeOrderCounts() {
-		return itemTypeOrderCounts;
+	public List<ItemTypeFinalSummaryDTO> getItemTypeFinalSummary() {
+		return itemTypeFinalSummary;
 	}
 
-	public void setItemTypeOrderCounts(List<ItemTypeOrderCountDTO> itemTypeOrderCounts) {
-		this.itemTypeOrderCounts = itemTypeOrderCounts;
+	public void setItemTypeFinalSummary(List<ItemTypeFinalSummaryDTO> itemTypeFinalSummary) {
+		this.itemTypeFinalSummary = itemTypeFinalSummary;
 	}
 
-	public List<OrderPriorityOrderCountDTO> getOrderPriorityOrderCounts() {
-		return orderPriorityOrderCounts;
+	public List<OrderPriorityFinalSummaryDTO> getOrderPriorityFinalSummary() {
+		return orderPriorityFinalSummary;
 	}
 
-	public void setOrderPriorityOrderCounts(List<OrderPriorityOrderCountDTO> orderPriorityOrderCounts) {
-		this.orderPriorityOrderCounts = orderPriorityOrderCounts;
+	public void setOrderPriorityFinalSummary(List<OrderPriorityFinalSummaryDTO> orderPriorityFinalSummary) {
+		this.orderPriorityFinalSummary = orderPriorityFinalSummary;
 	}
 
-	public List<SalesChannelOrderCountDTO> getSalesChannelOrderCounts() {
-		return salesChannelOrderCounts;
+	public List<SalesChannelFinalSummaryDTO> getSalesChannelFinalSummary() {
+		return salesChannelFinalSummary;
 	}
 
-	public void setSalesChannelOrderCounts(List<SalesChannelOrderCountDTO> salesChannelOrderCounts) {
-		this.salesChannelOrderCounts = salesChannelOrderCounts;
+	public void setSalesChannelFinalSummary(List<SalesChannelFinalSummaryDTO> salesChannelFinalSummary) {
+		this.salesChannelFinalSummary = salesChannelFinalSummary;
 	}
-    
-    
 }

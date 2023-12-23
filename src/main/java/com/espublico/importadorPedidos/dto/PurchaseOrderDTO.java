@@ -2,6 +2,13 @@ package com.espublico.importadorPedidos.dto;
 
 import java.time.LocalDate;
 
+/**
+ * DTO para representar los detalles de una orden de compra. Esta clase
+ * encapsula una amplia gama de información relacionada con una orden de compra,
+ * incluyendo identificadores, fechas, prioridades, detalles de venta, costos y
+ * beneficios. Facilita el transporte de esta información de manera estructurada
+ * entre diferentes componentes de la aplicación.
+ */
 public class PurchaseOrderDTO {
 
 	private Long purchaseOrderId;

@@ -20,6 +20,11 @@ import com.espublico.importadorPedidos.service.ImportCsvService;
 
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Controlador para la gestión de importación de archivos CSV.
+ * Este controlador se encarga de manejar las solicitudes relacionadas con la carga y procesamiento
+ * de archivos CSV para la aplicación. Utiliza un servicio específico para realizar el procesamiento del archivo.
+ */
 @Controller
 public class ImportCsvController {
 	
@@ -30,11 +35,14 @@ public class ImportCsvController {
 	private ImportCsvService importCsvService;
 	
 	/**
-	 * El método handleFileUpload procesa el archivo cargado y luego redirige a la
-	 * página de resumen final con distintos datatables para mostrar la información de la orden.
-	 * 
-	 * @param Archivo CSV
-	 * @return vista de resumen final
+	 * Maneja la carga de un archivo CSV y procesa su contenido.
+	 * Este método acepta un archivo CSV cargado por el usuario, lo procesa para extraer y manejar la información
+	 * y luego redirige a una vista de resumen. Si hay errores en el archivo o en el proceso de carga,
+	 * redirige a una vista de error.
+	 *
+	 * @param file    Archivo CSV cargado por el usuario.
+	 * @param session Sesión HTTP para almacenar atributos entre solicitudes.
+	 * @return Objeto ModelAndView que redirige a la vista correspondiente basada en el resultado del procesamiento del archivo.
 	 */
 	@PostMapping("/importarPedidos")
 	public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file, HttpSession session) {

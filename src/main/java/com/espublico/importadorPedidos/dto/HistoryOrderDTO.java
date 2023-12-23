@@ -2,6 +2,12 @@ package com.espublico.importadorPedidos.dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO para representar la información histórica de una orden. Esta clase
+ * encapsula datos como el identificador del historial y la fecha de cambio,
+ * permitiendo transferir esta información de manera estructurada entre
+ * diferentes capas de la aplicación.
+ */
 public class HistoryOrderDTO {
 
 	private Long historyId;

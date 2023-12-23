@@ -11,10 +11,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad JPA que representa una orden de compra en la base de datos. Esta
+ * clase mapea a la tabla 'purchase_order' y almacena la información detallada
+ * de una orden de compra, incluyendo identificadores, fechas, prioridades,
+ * detalles de venta, y costos y beneficios asociados. Además, mantiene una
+ * relación con el historial de cambios de la orden a través de la entidad
+ * HistoryOrder.
+ */
 @Entity
 @Table(name = "purchase_order")
 public class PurchaseOrder {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "purchase_order_id")
@@ -61,9 +69,9 @@ public class PurchaseOrder {
 
 	@Column(name = "total_profit")
 	private double totalProfit;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "history_id")
+	@JoinColumn(name = "history_id")
 	private HistoryOrder historyOrder;
 
 	// Constructor sin parametros Getters y setters
@@ -77,7 +85,7 @@ public class PurchaseOrder {
 	public void setPurchaseOrderId(Long purchaseOrderId) {
 		this.purchaseOrderId = purchaseOrderId;
 	}
-	
+
 	public Long getOrderId() {
 		return orderId;
 	}
