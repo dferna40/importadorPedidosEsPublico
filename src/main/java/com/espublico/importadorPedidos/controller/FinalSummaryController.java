@@ -24,7 +24,7 @@ public class FinalSummaryController {
 
 	@GetMapping("/resumenFinal")
 	public ModelAndView showFinalSummary(ModelAndView mav, HttpSession session) {
-		// Recuperar el objeto de la sesión
+		// Recuperar el id de historico de la sesión
 		Long idHistory = (Long) session.getAttribute("idHistory");
 
 		// Lógica con el valor recuperado

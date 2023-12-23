@@ -18,6 +18,7 @@ public class PurchaseOrderMapper {
         }
 
         PurchaseOrderDTO dto = new PurchaseOrderDTO();
+        dto.setPurchaseOrderId(order.getPurchaseOrderId());
         dto.setOrderId(order.getOrderId());
         dto.setOrderDate(order.getOrderDate());
         dto.setShipDate(order.getShipDate());
@@ -44,6 +45,7 @@ public class PurchaseOrderMapper {
         }
 
         PurchaseOrder order = new PurchaseOrder();
+        order.setPurchaseOrderId(orderDTO.getPurchaseOrderId());
         order.setOrderId(orderDTO.getOrderId());
         order.setOrderDate(orderDTO.getOrderDate());
         order.setShipDate(orderDTO.getShipDate());

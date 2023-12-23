@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class PurchaseOrderDTO {
 
+	private Long purchaseOrderId;
 	private Long orderId;
 	private LocalDate orderDate;
 	private LocalDate shipDate;
@@ -26,10 +27,12 @@ public class PurchaseOrderDTO {
 		// Constructor vacío
 	}
 
-	public PurchaseOrderDTO(Long orderId, LocalDate orderDate, LocalDate shipDate, String orderPriority, Integer unitsSold,
-			String salesChannel, String country, String itemType, String region, double unitPrice, double unitCost,
-			double totalRevenue, double totalCost, double totalProfit,Long historyId) {
+	public PurchaseOrderDTO(Long purchaseOrderId, Long orderId, LocalDate orderDate, LocalDate shipDate,
+			String orderPriority, Integer unitsSold, String salesChannel, String country, String itemType,
+			String region, double unitPrice, double unitCost, double totalRevenue, double totalCost, double totalProfit,
+			Long historyId) {
 		super();
+		this.purchaseOrderId = purchaseOrderId;
 		this.orderId = orderId;
 		this.orderDate = orderDate;
 		this.shipDate = shipDate;
@@ -45,6 +48,14 @@ public class PurchaseOrderDTO {
 		this.totalCost = totalCost;
 		this.totalProfit = totalProfit;
 		this.historyId = historyId;
+	}
+
+	public Long getPurchaseOrderId() {
+		return purchaseOrderId;
+	}
+
+	public void setPurchaseOrderId(Long purchaseOrderId) {
+		this.purchaseOrderId = purchaseOrderId;
 	}
 
 	public Long getOrderId() {
@@ -166,7 +177,5 @@ public class PurchaseOrderDTO {
 	public void setHistoryId(Long historyId) {
 		this.historyId = historyId;
 	}
-	
-	
 
-	}
+}

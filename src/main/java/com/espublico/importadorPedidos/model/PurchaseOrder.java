@@ -14,9 +14,12 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "purchase_order")
 public class PurchaseOrder {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "purchase_order_id")
+	private Long purchaseOrderId;
+
 	@Column(name = "order_id")
 	private Long orderId;
 
@@ -67,6 +70,14 @@ public class PurchaseOrder {
 	public PurchaseOrder() {
 	}
 
+	public Long getPurchaseOrderId() {
+		return purchaseOrderId;
+	}
+
+	public void setPurchaseOrderId(Long purchaseOrderId) {
+		this.purchaseOrderId = purchaseOrderId;
+	}
+	
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -186,5 +197,4 @@ public class PurchaseOrder {
 	public void setHistoryOrder(HistoryOrder historyOrder) {
 		this.historyOrder = historyOrder;
 	}
-
 }

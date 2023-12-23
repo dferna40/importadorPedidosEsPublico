@@ -27,8 +27,8 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Lo
 	@Query("SELECT p.orderPriority, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.orderPriority")
 	List<Object[]> countPurchaseOrdersByOrderPriorityAndHistoryId(@Param("idHistory") Long historyId);
 	
-	@Query("SELECT p FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.orderId")
-	List<PurchaseOrder> findByHistoryOrderIdGroupedByOrderId(@Param("idHistory") Long historyId);
+	@Query("SELECT p FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory ORDER BY p.orderId")
+	List<PurchaseOrder> findByHistoryOrderIdByOrderId(@Param("idHistory") Long historyId);
 
 
 }
