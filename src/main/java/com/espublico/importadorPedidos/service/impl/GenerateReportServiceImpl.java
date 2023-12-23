@@ -60,6 +60,7 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 					"Sales Channel", "Ship Date", "Units Sold", "Unit Price", "Unit Cost", "Total Revenue",
 					"Total Cost", "Total Profit");
 			
+			//Contenido del fichero
 			for (PurchaseOrder order : purchaseOrders) {
 				String formattedOrderDate = order.getOrderDate().format(formatter);
 			    String formattedShipDate = order.getShipDate().format(formatter);
