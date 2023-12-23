@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.espublico.importadorPedidos.dto.FinalSummaryDTO;
 import com.espublico.importadorPedidos.service.FinalSummaryService;
+import com.espublico.importadorPedidos.service.GenerateReportService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,15 +24,27 @@ public class FinalSummaryController {
 	@Qualifier("finalSummaryService")
 	private FinalSummaryService finalSummaryService;
 
+	@Autowired
+	@Qualifier("generateReportService")
+	private GenerateReportService generateReportService;
+
 	@GetMapping("/resumenFinal")
-	public ModelAndView showFinalSummary(ModelAndView mav, HttpSession session) {
-		// Recuperar el id de historico de la sesión
-		Long idHistory = (Long) session.getAttribute("idHistory");
+	public ModelAndView showFinalSummary(@RequestParam(value = "idHistorico", required = false) Long idHistoricoURL,
+			ModelAndView mav, HttpSession session) {
+		Long idHistory;
+
+		// Verificar si el idHistorico viene como parámetro en la URL
+		if (idHistoricoURL != null) {
+			idHistory = idHistoricoURL;
+			session.setAttribute("idHistory", idHistory);
+		} else {
+			// Si no, intentar recuperarlo de la sesión
+			idHistory = (Long) session.getAttribute("idHistory");
+		}
 
 		// Lógica con el valor recuperado
 		if (idHistory != null) {
 			FinalSummaryDTO orderFinalSummaryDTO = finalSummaryService.resultFinalSummary(idHistory);
-
 			mav.addObject("countryOrderCountList", orderFinalSummaryDTO.getCountryOrderCounts());
 			mav.addObject("regionOrderCountList", orderFinalSummaryDTO.getRegionOrderCounts());
 			mav.addObject("itemTpyeOrderCountList", orderFinalSummaryDTO.getItemTypeOrderCounts());
@@ -38,7 +52,8 @@ public class FinalSummaryController {
 			mav.addObject("salesChannelOrderCountList", orderFinalSummaryDTO.getSalesChannelOrderCounts());
 			mav.setViewName("finalSummary");
 		} else {
-			System.out.println("");
+			// Manejar el caso donde no se encuentra el ID del historial
+			mav.setViewName("error"); // o cualquier lógica que desees implementar
 		}
 		return mav;
 	}

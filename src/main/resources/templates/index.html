@@ -155,7 +155,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="history : ${historyOrders}">
-								<td><a href="resumenFinal" class="history-link" th-data-historyId="${history.historyId}">[[${history.historyId}]]</a></td>
+								<td><a th:href="@{/resumenFinal(idHistorico=${history.historyId})}" class="history-link">[[${history.historyId}]]</a></td>
 								<td th:text="${history.changeDate}"></td>
 							</tr>
 						</tbody>
@@ -272,7 +272,8 @@
             if (type === 'row') {
                 var historyId = table.cell(indexes, 0).data();
                 console.log('History ID seleccionado:', historyId);
-                // Aquí puedes añadir la lógica para manejar el ID seleccionado
+                 // Redirigir a la página de Resumen Final con el ID del historial
+        		window.location.href = '/resumenFinal?idHistorico=' + historyId;
             }
         });
     });

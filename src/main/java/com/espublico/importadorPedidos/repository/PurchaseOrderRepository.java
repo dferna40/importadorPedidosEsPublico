@@ -28,7 +28,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Lo
 	List<Object[]> countPurchaseOrdersByOrderPriorityAndHistoryId(@Param("idHistory") Long historyId);
 	
 	@Query("SELECT p FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory ORDER BY p.orderId")
-	List<PurchaseOrder> findByHistoryOrderIdByOrderId(@Param("idHistory") Long historyId);
+	List<PurchaseOrder> findByHistoryOrderIdOrderByOrderId(@Param("idHistory") Long historyId);
 
 
 }

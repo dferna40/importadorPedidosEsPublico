@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.espublico.importadorPedidos.service.GenerateReportService;
 
@@ -13,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class GenerateReport {
+public class GenerateReportController {
 
 	@Autowired
 	@Qualifier("generateReportService")
@@ -21,8 +22,6 @@ public class GenerateReport {
 
 	@GetMapping("/generarInformeCsv")
 	public void generateReportCsv(HttpServletResponse response, HttpSession session) {
-
-		// Recuperar el objeto de la sesión
 		Long idHistory = (Long) session.getAttribute("idHistory");
 
 		// Lógica con el valor recuperado
@@ -34,6 +33,7 @@ public class GenerateReport {
 				e.printStackTrace();
 			}
 		}
+
 
 	}
 }

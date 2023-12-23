@@ -32,7 +32,7 @@ public class GenerateReportServiceImpl implements GenerateReportService{
 	    response.setContentType("text/csv");
 	    response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
-	    List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findByHistoryOrderIdByOrderId(idHistory);
+	    List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findByHistoryOrderIdOrderByOrderId(idHistory);
 	    
 	    // Crear un escritor para escribir la respuesta
 	    try (CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT)) {
