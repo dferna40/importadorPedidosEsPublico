@@ -44,8 +44,9 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 	 */
 	@Override
 	public void generateReportCsv(HttpServletResponse response, Long idHistory) throws IOException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		// Configura la respuesta para descargar un archivo CSV
-		String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("ddMMyyyy"));
+		String currentDate = LocalDate.now().format(formatter);
 		String fileName = "informePedidos_" + currentDate + ".csv";
 		response.setContentType("text/csv");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
@@ -58,10 +59,14 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 			csvPrinter.printRecord("Order ID", "Order Priority", "Order Date", "Region", "Country", "Item Type",
 					"Sales Channel", "Ship Date", "Units Sold", "Unit Price", "Unit Cost", "Total Revenue",
 					"Total Cost", "Total Profit");
+			
 			for (PurchaseOrder order : purchaseOrders) {
-				csvPrinter.printRecord(order.getOrderId(), order.getOrderPriority(), order.getOrderDate(),
+				String formattedOrderDate = order.getOrderDate().format(formatter);
+			    String formattedShipDate = order.getShipDate().format(formatter);
+				
+				csvPrinter.printRecord(order.getOrderId(), order.getOrderPriority(), formattedOrderDate,
 						order.getRegion(), order.getCountry(), order.getItemType(), order.getSalesChannel(),
-						order.getShipDate(), order.getUnitsSold(), order.getUnitPrice(), order.getUnitCost(),
+						formattedShipDate, order.getUnitsSold(), order.getUnitPrice(), order.getUnitCost(),
 						order.getTotalRevenue(), order.getTotalCost(), order.getTotalProfit());
 			}
 		}
