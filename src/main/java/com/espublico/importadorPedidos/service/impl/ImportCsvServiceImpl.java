@@ -83,7 +83,9 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 		// Crear un nuevo HistoryOrder para esta importación
 		HistoryOrder newHistoryOrder = new HistoryOrder();
-		newHistoryOrder.setChangeDate(LocalDateTime.now()); // Configura la fecha actual
+		// Asigna la fecha actual para cada historico
+		newHistoryOrder.setChangeDate(LocalDateTime.now()); 
+		//Guarda primero un id en el histórico
 		newHistoryOrder = historyOrderRepository.save(newHistoryOrder);
 
 		while ((line = reader.readLine()) != null) {
@@ -115,8 +117,10 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 		for (PurchaseOrderDTO dto : purchaseOrdersDTO) {
 			PurchaseOrder order = purchaseOrderMapper.toEntity(dto);
-			order.setHistoryOrder(newHistoryOrder); // Asignar el HistoryOrder común a cada PurchaseOrder
-			savePurchaseOrder(order, newHistoryOrder); // Guardar cada PurchaseOrder con el HistoryOrder común
+			// Asignar el HistoryOrder común a cada PurchaseOrder
+			order.setHistoryOrder(newHistoryOrder); 
+			// Guardar cada PurchaseOrder con el HistoryOrder común
+			savePurchaseOrder(order, newHistoryOrder); 
 		}
 		return errorMessages;
 	}

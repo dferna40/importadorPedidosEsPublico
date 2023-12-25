@@ -55,7 +55,8 @@ public class ImportCsvController {
 		} else {
 			try (BufferedReader reader = new BufferedReader(
 					new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
-				reader.readLine(); // Saltar encabezados
+				// Saltar la primera linea que contiene los encabezados
+				reader.readLine(); 
 
 				List<String> errorMessages = importCsvService.processCsvFile(reader);
 				if (!errorMessages.isEmpty()) {
