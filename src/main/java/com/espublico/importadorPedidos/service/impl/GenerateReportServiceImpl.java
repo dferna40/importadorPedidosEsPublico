@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service("generateReportService")
 public class GenerateReportServiceImpl implements GenerateReportService {
 
+	private static final Logger logger = LoggerFactory.getLogger(GenerateReportServiceImpl.class);
+	
 	@Autowired
 	@Qualifier("purchaseOrderRepository")
 	private PurchaseOrderRepository purchaseOrderRepository;
@@ -44,6 +48,9 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 	 */
 	@Override
 	public void generateReportCsv(HttpServletResponse response, Long idHistory) throws IOException {
+		
+		logger.info("Comienza la generación del informe");
+		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		// Configura la respuesta para descargar un archivo CSV
 		String currentDate = LocalDate.now().format(formatter);
@@ -71,7 +78,7 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 						order.getTotalRevenue(), order.getTotalCost(), order.getTotalProfit());
 			}
 		}
-
+		logger.info("Finaliza la generación del informe");
 	}
 
 }

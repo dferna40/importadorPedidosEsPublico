@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ import com.espublico.importadorPedidos.service.PurchaseOrderService;
 @Service("finalSummaryService")
 public class FinalSummaryServiceImpl implements FinalSummaryService {
 
+	private static final Logger logger = LoggerFactory.getLogger(FinalSummaryServiceImpl.class);
+	
 	@Autowired
 	@Qualifier("purchaseOrderService")
 	private PurchaseOrderService purchaseOrderService;
@@ -43,6 +47,8 @@ public class FinalSummaryServiceImpl implements FinalSummaryService {
 	@Override
 	public FinalSummaryDTO resultFinalSummary(Long idHistory) {
 
+		logger.info("Empieza el procesamiento de los datos para el conteo del resumen final");
+		
 		Map<String, Long> countryOrderCounts = purchaseOrderService.countPurchaseOrdersByCountryAndHistoryId(idHistory);
 		Map<String, Long> regionOrderCounts = purchaseOrderService.countPurchaseOrdersByRegionAndHistoryId(idHistory);
 		Map<String, Long> itemTpyeOrderCounts = purchaseOrderService
@@ -84,6 +90,8 @@ public class FinalSummaryServiceImpl implements FinalSummaryService {
 					entry.getValue());
 			salesChannelOrderCountList.add(salesChannelOrderCount);
 		}
+		
+		logger.info("Finaliza el conteo");
 
 		return new FinalSummaryDTO(countryOrderCountList, regionOrderCountList, itemTpyeOrderCountList,
 				orderPriorityOrderCountList, salesChannelOrderCountList);

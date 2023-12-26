@@ -8,10 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.espublico.importadorPedidos.controller.FinalSummaryController;
 import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
 import com.espublico.importadorPedidos.mapper.PurchaseOrderMapper;
 import com.espublico.importadorPedidos.model.HistoryOrder;
@@ -21,6 +24,8 @@ import com.espublico.importadorPedidos.repository.PurchaseOrderRepository;
 import com.espublico.importadorPedidos.service.ImportCsvService;
 import com.espublico.importadorPedidos.util.CsvDataValidator;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 /**
@@ -36,6 +41,8 @@ import jakarta.transaction.Transactional;
 @Service("importCsvService")
 public class ImportCsvServiceImpl implements ImportCsvService {
 
+	private static final Logger logger = LoggerFactory.getLogger(ImportCsvServiceImpl.class);
+	
 	@Autowired
 	@Qualifier("purchaseOrderMapper")
 	private PurchaseOrderMapper purchaseOrderMapper;
@@ -78,9 +85,10 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 	 *                     CSV.
 	 */
 	public List<String> processCsvFile(BufferedReader reader) throws IOException {
-		List<PurchaseOrderDTO> purchaseOrdersDTO = new ArrayList<>();
+		List<PurchaseOrder> purchaseOrders = new ArrayList<>();
 		String line;
-
+		
+		logger.info("Comienza el procesamiento del CSV");
 		// Crear un nuevo HistoryOrder para esta importación
 		HistoryOrder newHistoryOrder = new HistoryOrder();
 		// Asigna la fecha actual para cada historico
@@ -111,18 +119,18 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 				purchaseOrderDTO.setTotalCost(Double.parseDouble(values[12]));
 				purchaseOrderDTO.setTotalProfit(Double.parseDouble(values[13]));
 				// En cada iteracion se añade la orden a la lista de ordenes de pedidos
-				purchaseOrdersDTO.add(purchaseOrderDTO);
+				PurchaseOrder order = purchaseOrderMapper.toEntity(purchaseOrderDTO);
+				order.setHistoryOrder(newHistoryOrder);
+                purchaseOrders.add(order);
 			}
 		}
 
-		for (PurchaseOrderDTO dto : purchaseOrdersDTO) {
-			PurchaseOrder order = purchaseOrderMapper.toEntity(dto);
-			// Asignar el HistoryOrder común a cada PurchaseOrder
-			order.setHistoryOrder(newHistoryOrder); 
-			// Guardar cada PurchaseOrder con el HistoryOrder común
-			savePurchaseOrder(order, newHistoryOrder); 
-		}
-		return errorMessages;
+		// Guardar todos los PurchaseOrders en la base de datos en un lote
+        purchaseOrderRepository.saveAll(purchaseOrders);
+        
+        logger.info("Guarda todos los registros en Base de datos");
+        
+        return errorMessages;
 	}
 
 	/**
