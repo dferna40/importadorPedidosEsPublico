@@ -36,8 +36,8 @@ public class User {
 	private String email;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_rol", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "user_rol_id"))
-	private List<UserRol> roles = new ArrayList<>();
+	@JoinTable(name = "user_rol", joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "rol_id"))
+	private List<Roles> roles = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PurchaseOrder> purchaseOrders;

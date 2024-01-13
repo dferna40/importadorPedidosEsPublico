@@ -1,6 +1,7 @@
 package com.espublico.importadorPedidos.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -90,5 +91,6 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Lo
 	 * @return Una lista de órdenes de compra ordenadas.
 	 */
 	@Query("SELECT p FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory ORDER BY p.orderId")
-	List<PurchaseOrder> findByHistoryOrderIdOrderByOrderId(@Param("idHistory") Long historyId);
+	Optional<List<PurchaseOrder>> findByHistoryOrderIdOrderByOrderId(@Param("idHistory") Long historyId);
+
 }

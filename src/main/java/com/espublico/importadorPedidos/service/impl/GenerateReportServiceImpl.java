@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -58,8 +59,6 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 		response.setContentType("text/csv");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
-		List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findByHistoryOrderIdOrderByOrderId(idHistory);
-
 		// Crear un escritor para escribir la respuesta
 		try (CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT)) {
 			// Datos de cabecera
@@ -68,15 +67,23 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 					"Total Cost", "Total Profit");
 			
 			//Contenido del fichero
-			for (PurchaseOrder order : purchaseOrders) {
-				String formattedOrderDate = order.getOrderDate().format(formatter);
-			    String formattedShipDate = order.getShipDate().format(formatter);
+			Optional<List<PurchaseOrder>> purchaseOrdersOptional = purchaseOrderRepository.findByHistoryOrderIdOrderByOrderId(idHistory);
+			if (purchaseOrdersOptional.isPresent()) {
+				List<PurchaseOrder> purchaseOrders = purchaseOrdersOptional.get();
 				
-				csvPrinter.printRecord(order.getOrderId(), order.getOrderPriority(), formattedOrderDate,
-						order.getRegion(), order.getCountry(), order.getItemType(), order.getSalesChannel(),
-						formattedShipDate, order.getUnitsSold(), order.getUnitPrice(), order.getUnitCost(),
-						order.getTotalRevenue(), order.getTotalCost(), order.getTotalProfit());
+				for (PurchaseOrder order : purchaseOrders) {
+					String formattedOrderDate = order.getOrderDate().format(formatter);
+				    String formattedShipDate = order.getShipDate().format(formatter);
+					
+					csvPrinter.printRecord(order.getOrderId(), order.getOrderPriority(), formattedOrderDate,
+							order.getRegion(), order.getCountry(), order.getItemType(), order.getSalesChannel(),
+							formattedShipDate, order.getUnitsSold(), order.getUnitPrice(), order.getUnitCost(),
+							order.getTotalRevenue(), order.getTotalCost(), order.getTotalProfit());
+				}
+			} else {
+				System.out.println("Manejar cuando no lleguen ordenes de envio");
 			}
+			
 		}
 		logger.info("Finaliza la generación del informe");
 	}
