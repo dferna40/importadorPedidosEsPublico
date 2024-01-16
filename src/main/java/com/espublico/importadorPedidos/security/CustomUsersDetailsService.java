@@ -3,7 +3,6 @@ package com.espublico.importadorPedidos.security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.espublico.importadorPedidos.model.Roles;
-import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.UserRepository;
 
 @Service
