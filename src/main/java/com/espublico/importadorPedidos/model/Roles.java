@@ -1,7 +1,10 @@
 package com.espublico.importadorPedidos.model;
 
+import java.util.function.Supplier;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,4 +37,6 @@ public class Roles {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	
 }
