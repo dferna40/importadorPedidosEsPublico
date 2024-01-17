@@ -44,6 +44,34 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<HistoryOrder> orderHistories;
+	
+	public User () {
+		// Constructor vacío necesario para JPA
+	}
+	
+	
+
+	public User(Long userId, String userName, String password, String email, List<Roles> roles,
+			Set<PurchaseOrder> purchaseOrders, Set<HistoryOrder> orderHistories) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.roles = roles;
+		this.purchaseOrders = purchaseOrders;
+		this.orderHistories = orderHistories;
+	}
+
+	public User( String userName, String password, String email, List<Roles> roles
+			) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.roles = roles;
+	}
+
 
 	public Long getUserId() {
 		return userId;
@@ -91,5 +119,13 @@ public class User {
 
 	public void setOrderHistories(Set<HistoryOrder> orderHistories) {
 		this.orderHistories = orderHistories;
+	}
+
+	public List<Roles> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
 	}
 }
