@@ -1,7 +1,7 @@
 package com.espublico.importadorPedidos.controller;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,24 +12,35 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.espublico.importadorPedidos.dto.AuthResponseDTO;
 import com.espublico.importadorPedidos.dto.LoginDTO;
 import com.espublico.importadorPedidos.dto.RegisterDTO;
+import com.espublico.importadorPedidos.model.HistoryOrder;
 import com.espublico.importadorPedidos.model.Roles;
 import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.RolesRepository;
 import com.espublico.importadorPedidos.repository.UserRepository;
 import com.espublico.importadorPedidos.security.JwtGenerate;
+import com.espublico.importadorPedidos.service.impl.HistoryOrderServiceImpl;
 
 import jakarta.persistence.EntityNotFoundException;
 
-@RestController
-@RequestMapping("/api/auth/")
+/**
+ * En este enfoque, estás combinando la funcionalidad de servir páginas y
+ * manejar APIs REST en un solo controlador. Los métodos que devuelven datos
+ * (como los endpoints de registro y login) están anotados con @ResponseBody
+ * para indicar que la respuesta debe ser un cuerpo de respuesta y no una vista.
+ */
+@Controller
+@RequestMapping("/auth/")
 public class RestAuthController {
 
 	private AuthenticationManager authenticationManager;
@@ -47,9 +58,13 @@ public class RestAuthController {
 		this.userRepository = userRepository;
 		this.jwtGenerate = jwtGenerate;
 	}
+	
+	@Autowired
+	private HistoryOrderServiceImpl historyOrderService;
 
 	// Metodo para poder registrar usuario con roll USER
 	@PostMapping("registro")
+	@ResponseBody
 	public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO) {
 		if (userRepository.existsByUserName(registerDTO.getUserName())) {
 			return new ResponseEntity<>("El usuario ya existe, intenta con otro", HttpStatus.BAD_REQUEST);
@@ -72,6 +87,7 @@ public class RestAuthController {
 
 	// Metodo para poder registrar usuario con roll ADMIN
 	@PostMapping("registroAdmin")
+	@ResponseBody
 	public ResponseEntity<String> registerAdmin(@RequestBody RegisterDTO registerDTO) {
 		if (userRepository.existsByUserName(registerDTO.getUserName())) {
 			return new ResponseEntity<>("El usuario ya existe, intenta con otro", HttpStatus.BAD_REQUEST);
@@ -94,12 +110,36 @@ public class RestAuthController {
 
 	// Metodo para logear un usuario y obtener un token
 	@PostMapping("login")
+	@ResponseBody
 	public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUserName(), loginDTO.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token = jwtGenerate.generateToken(authentication);
-		
-		return new ResponseEntity<>(new AuthResponseDTO(token),HttpStatus.OK);
+
+		return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+	}
+
+	@GetMapping("/login")
+	public ModelAndView loginPage() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("user",new LoginDTO());
+		mav.setViewName("login");
+		return mav;
+	}
+
+	@GetMapping("/registro")
+	public ModelAndView registerPage() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("register");
+		return mav;
+	}
+	
+	@GetMapping({ "/", "/inicio" })
+	public ModelAndView postLoginPage(ModelAndView mav) {
+		List<HistoryOrder> historyOrders = historyOrderService.getAllHistoryOrders();
+		mav.addObject("historyOrders", historyOrders);
+		mav.setViewName("index");
+		return mav;
 	}
 }

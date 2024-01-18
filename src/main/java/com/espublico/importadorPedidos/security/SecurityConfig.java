@@ -3,6 +3,7 @@ package com.espublico.importadorPedidos.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -53,22 +55,27 @@ public class SecurityConfig {
 	// aplicacion
 	@SuppressWarnings({ "removal"})
 	@Bean
-	SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
-		http
-			.csrf().disable() //
-			.exceptionHandling() // Permitimos el manejo de excepciones
-			.authenticationEntryPoint(jwtAutheticationEntryPoint) // Nos establece un punto de entrada personalizado de autenticacion para el manejo de autenticaciones no autorizadas
-			.and()
-			.sessionManagement() // Permite la gestion de sesiones
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Las sesiones no tendran estado
-			.and()
-			.authorizeHttpRequests() // Toda peticion http debe ser autorizada
-			.requestMatchers("/api/auth/**").permitAll()
-			.anyRequest().authenticated()
-			.and()
-			.httpBasic();
-		http.addFilterBefore(jwtAutheticationFilter(), UsernamePasswordAuthenticationFilter.class);
-		
-		return http.build();
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.disable())
+	        .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAutheticationEntryPoint))
+	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/auth/login", "/auth/registro").permitAll()
+	            .requestMatchers(HttpMethod.POST, "/auth/registro", "/auth/registroAdmin").permitAll()
+	            .requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // Permite acceso a recursos estáticos
+	            .anyRequest().authenticated())
+	        .formLogin(form -> form
+	            .loginPage("/auth/login")
+	            .loginProcessingUrl("/login")
+	            .successHandler(new SimpleUrlAuthenticationSuccessHandler("/inicio")))
+	        .httpBasic();
+
+	    // Asegúrate de que `addFilterBefore` se llama directamente sobre `http`
+	    http.addFilterBefore(jwtAutheticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+	    return http.build();
 	}
+
+
 }

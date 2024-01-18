@@ -51,19 +51,5 @@ public class HomeController {
 		return mav;
 	}
 
-//	@GetMapping({ "/login" })
-//	public ModelAndView login() {
-//
-//		ModelAndView mav = new ModelAndView();
-//
-//		return mav;
-//	}
-	
-	@GetMapping({ "/registro" })
-	public ModelAndView registerUser() {
 
-		ModelAndView mav = new ModelAndView();
-
-		return mav;
-	}
 }
