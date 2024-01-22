@@ -25,4 +25,10 @@ spring:
 server:
   servlet:
     context-path: /importadorPedidos
+    
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
 

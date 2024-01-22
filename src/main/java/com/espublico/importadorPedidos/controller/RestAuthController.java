@@ -40,7 +40,7 @@ import jakarta.persistence.EntityNotFoundException;
  * para indicar que la respuesta debe ser un cuerpo de respuesta y no una vista.
  */
 @Controller
-@RequestMapping("/auth/")
+@RequestMapping("/api/auth/")
 public class RestAuthController {
 
 	private AuthenticationManager authenticationManager;
@@ -59,9 +59,6 @@ public class RestAuthController {
 		this.jwtGenerate = jwtGenerate;
 	}
 	
-	@Autowired
-	private HistoryOrderServiceImpl historyOrderService;
-
 	// Metodo para poder registrar usuario con roll USER
 	@PostMapping("registro")
 	@ResponseBody
@@ -118,28 +115,5 @@ public class RestAuthController {
 		String token = jwtGenerate.generateToken(authentication);
 
 		return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
-	}
-
-	@GetMapping("/login")
-	public ModelAndView loginPage() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("user",new LoginDTO());
-		mav.setViewName("login");
-		return mav;
-	}
-
-	@GetMapping("/registro")
-	public ModelAndView registerPage() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("register");
-		return mav;
-	}
-	
-	@GetMapping({ "/", "/inicio" })
-	public ModelAndView postLoginPage(ModelAndView mav) {
-		List<HistoryOrder> historyOrders = historyOrderService.getAllHistoryOrders();
-		mav.addObject("historyOrders", historyOrders);
-		mav.setViewName("index");
-		return mav;
 	}
 }

@@ -4,15 +4,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registration or Sign Up form in HTML CSS | CodingLab</title>
+<title>Acceso</title>
 <link rel="stylesheet"
 	href="/importadorPedidos/css/styleRegisterLogin.css">
 </head>
 <body>
 	<div class="wrapper">
 		<h2>Acceso</h2>
-		<form action="#" th:action="@{/login}"
-			th:object="${user}" method="post">
+		<form th:action="@{/login}" th:object="${user}" method="post">
 			<div class="input-box">
 				<input type="text" th:field="*{userName}"
 					placeholder="Introduce tu nombre de usuario" required>

@@ -61,12 +61,13 @@ public class SecurityConfig {
 	        .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAutheticationEntryPoint))
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/auth/login", "/auth/registro").permitAll()
-	            .requestMatchers(HttpMethod.POST, "/auth/registro", "/auth/registroAdmin").permitAll()
+	            .requestMatchers("/api/auth/login", "/api/auth/registro").permitAll()
+	            .requestMatchers(HttpMethod.GET,"/login","/registro").permitAll()
+	            .requestMatchers(HttpMethod.POST, "api/auth/registro", "/auth/registroAdmin").permitAll()
 	            .requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // Permite acceso a recursos estáticos
 	            .anyRequest().authenticated())
 	        .formLogin(form -> form
-	            .loginPage("/auth/login")
+	            .loginPage("/login")
 	            .loginProcessingUrl("/login")
 	            .successHandler(new SimpleUrlAuthenticationSuccessHandler("/inicio")))
 	        .httpBasic();
