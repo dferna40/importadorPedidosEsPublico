@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>importadorPedidos</name>
-	<description>Prueba tecnica para Espublico de un Importador de Pedidos</description>
+	<description>Importador pedidos en formato CSV</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

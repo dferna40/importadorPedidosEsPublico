@@ -17,6 +17,11 @@ spring:
         order_inserts: true
         order_updates: true
 
+  security:
+    user:
+      name: admin
+      password: admin
+
   servlet:
     multipart:
       max-file-size: 500MB
@@ -25,10 +30,9 @@ spring:
 server:
   servlet:
     context-path: /importadorPedidos
-    
+
 logging:
   level:
     org:
       springframework:
         security: DEBUG
-
