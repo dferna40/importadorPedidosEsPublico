@@ -31,7 +31,7 @@ public class CustomUsersDetailsService implements UserDetailsService {
 	public Collection<GrantedAuthority> mapToAuthorities(List<Roles> roles) {
 	    List<GrantedAuthority> authorities = new ArrayList<>();
 	    for (Roles role : roles) {
-	        authorities.add(new SimpleGrantedAuthority(role.getName()));
+	        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
 	    }
 	    return authorities;
 	}
