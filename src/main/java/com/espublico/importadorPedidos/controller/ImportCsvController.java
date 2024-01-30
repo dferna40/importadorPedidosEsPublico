@@ -1,11 +1,7 @@
 package com.espublico.importadorPedidos.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
+import com.espublico.importadorPedidos.service.IImportCsvService;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.espublico.importadorPedidos.service.ImportCsvService;
-
-import jakarta.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * Controlador para la gestión de importación de archivos CSV.
@@ -32,7 +30,7 @@ public class ImportCsvController {
 
 	@Autowired
 	@Qualifier("importCsvService")
-	private ImportCsvService importCsvService;
+	private IImportCsvService importCsvService;
 	
 	/**
 	 * Maneja la carga de un archivo CSV y procesa su contenido.

@@ -1,5 +1,9 @@
 package com.espublico.importadorPedidos.controller;
 
+import com.espublico.importadorPedidos.dto.FinalSummaryDTO;
+import com.espublico.importadorPedidos.service.IFinalSummaryService;
+import com.espublico.importadorPedidos.service.IGenerateReportService;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.espublico.importadorPedidos.dto.FinalSummaryDTO;
-import com.espublico.importadorPedidos.service.FinalSummaryService;
-import com.espublico.importadorPedidos.service.GenerateReportService;
-
-import jakarta.servlet.http.HttpSession;
 
 /**
  * Controlador para manejar las solicitudes relacionadas con el resumen final de pedidos.
@@ -28,11 +26,11 @@ public class FinalSummaryController {
 
 	@Autowired
 	@Qualifier("finalSummaryService")
-	private FinalSummaryService finalSummaryService;
+	private IFinalSummaryService finalSummaryService;
 
 	@Autowired
 	@Qualifier("generateReportService")
-	private GenerateReportService generateReportService;
+	private IGenerateReportService generateReportService;
 
 	/**
      * Maneja la solicitud GET para mostrar el resumen final de los pedidos.

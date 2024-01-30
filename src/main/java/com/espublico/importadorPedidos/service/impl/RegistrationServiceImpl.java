@@ -3,8 +3,8 @@ package com.espublico.importadorPedidos.service.impl;
 import com.espublico.importadorPedidos.dto.RegisterDTO;
 import com.espublico.importadorPedidos.model.Roles;
 import com.espublico.importadorPedidos.model.User;
-import com.espublico.importadorPedidos.repository.RolesRepository;
-import com.espublico.importadorPedidos.repository.UserRepository;
+import com.espublico.importadorPedidos.repository.IRolesRepository;
+import com.espublico.importadorPedidos.repository.IUserRepository;
 import com.espublico.importadorPedidos.service.IRegistrationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import java.util.function.Supplier;
 public class RegistrationServiceImpl implements IRegistrationService {
 
     @Autowired
-    RolesRepository rolesRepository;
+    IRolesRepository rolesRepository;
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     // Inyectamos dependencias a través del constructor
-    public RegistrationServiceImpl(UserRepository userRepository,
+    public RegistrationServiceImpl(IUserRepository userRepository,
                                    PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

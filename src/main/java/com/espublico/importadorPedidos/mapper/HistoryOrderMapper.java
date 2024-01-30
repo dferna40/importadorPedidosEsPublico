@@ -1,12 +1,11 @@
 package com.espublico.importadorPedidos.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.espublico.importadorPedidos.dto.HistoryOrderDTO;
 import com.espublico.importadorPedidos.model.HistoryOrder;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase de mapeo para convertir entre objetos de dominio HistoryOrder y objetos

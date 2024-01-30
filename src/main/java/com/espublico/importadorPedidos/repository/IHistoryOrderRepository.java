@@ -1,10 +1,9 @@
 package com.espublico.importadorPedidos.repository;
 
+import com.espublico.importadorPedidos.model.HistoryOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import com.espublico.importadorPedidos.model.HistoryOrder;
 
 /**
  * Repositorio JPA para la entidad HistoryOrder. Esta interfaz extiende
@@ -15,7 +14,7 @@ import com.espublico.importadorPedidos.model.HistoryOrder;
  * HistoryOrder.
  */
 @Repository("historyOrderRepository")
-public interface HistoryOrderRepository extends JpaRepository<HistoryOrder, Long> {
+public interface IHistoryOrderRepository extends JpaRepository<HistoryOrder, Long> {
 
 	/**
 	 * Encuentra el identificador máximo actual en la entidad HistoryOrder. Esta

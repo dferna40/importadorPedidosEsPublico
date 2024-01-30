@@ -1,17 +1,17 @@
 package com.espublico.importadorPedidos.repository;
 
-import java.util.Optional;
-
+import com.espublico.importadorPedidos.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.espublico.importadorPedidos.model.User;
+import java.util.Optional;
 
 
 @Repository("userRepository")
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface IUserRepository extends JpaRepository<User, Long>{
 	
 	Optional<User> findByUserName(String userName);
 
 	boolean existsByUserName(String userName);
+
 }

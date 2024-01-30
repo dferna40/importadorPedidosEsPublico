@@ -1,11 +1,9 @@
 package com.espublico.importadorPedidos.service.impl;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-
+import com.espublico.importadorPedidos.model.PurchaseOrder;
+import com.espublico.importadorPedidos.repository.IPurchaseOrderRepository;
+import com.espublico.importadorPedidos.service.IGenerateReportService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
@@ -14,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.espublico.importadorPedidos.model.PurchaseOrder;
-import com.espublico.importadorPedidos.repository.PurchaseOrderRepository;
-import com.espublico.importadorPedidos.service.GenerateReportService;
-
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementación del servicio GenerateReportService. Esta clase se encarga de
@@ -28,13 +26,13 @@ import jakarta.servlet.http.HttpServletResponse;
  * informe.
  */
 @Service("generateReportService")
-public class GenerateReportServiceImpl implements GenerateReportService {
+public class GenerateReportServiceImpl implements IGenerateReportService {
 
 	private static final Logger logger = LoggerFactory.getLogger(GenerateReportServiceImpl.class);
 	
 	@Autowired
 	@Qualifier("purchaseOrderRepository")
-	private PurchaseOrderRepository purchaseOrderRepository;
+	private IPurchaseOrderRepository purchaseOrderRepository;
 
 	/**
 	 * Genera un informe en formato CSV para un identificador de historial

@@ -10,7 +10,7 @@ import java.util.Map;
  * identificador de historial específico, proporcionando insights útiles sobre
  * los datos de las órdenes.
  */
-public interface PurchaseOrderService {
+public interface IPurchaseOrderService {
 
 	/**
 	 * Cuenta las órdenes de compra agrupadas por país para un identificador de

@@ -1,23 +1,17 @@
 package com.espublico.importadorPedidos.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.espublico.importadorPedidos.dto.*;
+import com.espublico.importadorPedidos.service.IFinalSummaryService;
+import com.espublico.importadorPedidos.service.IPurchaseOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.espublico.importadorPedidos.dto.CountryFinalSummaryDTO;
-import com.espublico.importadorPedidos.dto.ItemTypeFinalSummaryDTO;
-import com.espublico.importadorPedidos.dto.FinalSummaryDTO;
-import com.espublico.importadorPedidos.dto.OrderPriorityFinalSummaryDTO;
-import com.espublico.importadorPedidos.dto.RegionFinalSummaryDTO;
-import com.espublico.importadorPedidos.dto.SalesChannelFinalSummaryDTO;
-import com.espublico.importadorPedidos.service.FinalSummaryService;
-import com.espublico.importadorPedidos.service.PurchaseOrderService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementación del servicio FinalSummaryService. Esta clase se encarga de
@@ -26,13 +20,13 @@ import com.espublico.importadorPedidos.service.PurchaseOrderService;
  * agrupaciones y conteos de órdenes basados en diferentes dimensiones.
  */
 @Service("finalSummaryService")
-public class FinalSummaryServiceImpl implements FinalSummaryService {
+public class FinalSummaryServiceImpl implements IFinalSummaryService {
 
 	private static final Logger logger = LoggerFactory.getLogger(FinalSummaryServiceImpl.class);
 	
 	@Autowired
 	@Qualifier("purchaseOrderService")
-	private PurchaseOrderService purchaseOrderService;
+	private IPurchaseOrderService purchaseOrderService;
 
 	/**
 	 * Genera un resumen final compuesto basado en un identificador de historial

@@ -1,10 +1,8 @@
 package com.espublico.importadorPedidos.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.Supplier;
-
+import com.espublico.importadorPedidos.model.Roles;
+import com.espublico.importadorPedidos.model.User;
+import com.espublico.importadorPedidos.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,18 +11,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.espublico.importadorPedidos.model.Roles;
-import com.espublico.importadorPedidos.model.User;
-import com.espublico.importadorPedidos.repository.UserRepository;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 public class CustomUsersDetailsService implements UserDetailsService {
 
-	private UserRepository userRepo;
+	private IUserRepository userRepo;
 	
 	@Autowired
-	public CustomUsersDetailsService(UserRepository userRepo) {
+	public CustomUsersDetailsService(IUserRepository userRepo) {
 		this.userRepo = userRepo;
 	}
 	

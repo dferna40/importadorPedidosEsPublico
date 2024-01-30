@@ -1,7 +1,8 @@
 package com.espublico.importadorPedidos.controller;
 
-import java.io.IOException;
-
+import com.espublico.importadorPedidos.service.IGenerateReportService;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.espublico.importadorPedidos.service.GenerateReportService;
-
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Controlador para manejar la generación de informes en formato CSV.
@@ -27,7 +25,7 @@ public class GenerateReportController {
 
 	@Autowired
 	@Qualifier("generateReportService")
-	private GenerateReportService generateReportService;
+	private IGenerateReportService generateReportService;
 
 	/**
      * Maneja la solicitud GET para generar un informe CSV.

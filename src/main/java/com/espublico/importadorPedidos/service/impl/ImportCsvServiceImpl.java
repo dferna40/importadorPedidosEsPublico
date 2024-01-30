@@ -1,5 +1,20 @@
 package com.espublico.importadorPedidos.service.impl;
 
+import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
+import com.espublico.importadorPedidos.mapper.PurchaseOrderMapper;
+import com.espublico.importadorPedidos.model.HistoryOrder;
+import com.espublico.importadorPedidos.model.PurchaseOrder;
+import com.espublico.importadorPedidos.repository.IHistoryOrderRepository;
+import com.espublico.importadorPedidos.repository.IPurchaseOrderRepository;
+import com.espublico.importadorPedidos.service.IImportCsvService;
+import com.espublico.importadorPedidos.util.CsvDataValidator;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -7,26 +22,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-
-import com.espublico.importadorPedidos.controller.FinalSummaryController;
-import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
-import com.espublico.importadorPedidos.mapper.PurchaseOrderMapper;
-import com.espublico.importadorPedidos.model.HistoryOrder;
-import com.espublico.importadorPedidos.model.PurchaseOrder;
-import com.espublico.importadorPedidos.repository.HistoryOrderRepository;
-import com.espublico.importadorPedidos.repository.PurchaseOrderRepository;
-import com.espublico.importadorPedidos.service.ImportCsvService;
-import com.espublico.importadorPedidos.util.CsvDataValidator;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 
 /**
  * Servicio para importar datos de pedidos desde un archivo CSV y guardarlos en
@@ -39,7 +34,7 @@ import jakarta.transaction.Transactional;
  * seguimiento efectivo.
  */
 @Service("importCsvService")
-public class ImportCsvServiceImpl implements ImportCsvService {
+public class ImportCsvServiceImpl implements IImportCsvService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ImportCsvServiceImpl.class);
 	
@@ -49,11 +44,11 @@ public class ImportCsvServiceImpl implements ImportCsvService {
 
 	@Autowired
 	@Qualifier("purchaseOrderRepository")
-	private PurchaseOrderRepository purchaseOrderRepository;
+	private IPurchaseOrderRepository purchaseOrderRepository;
 
 	@Autowired
 	@Qualifier("historyOrderRepository")
-	private HistoryOrderRepository historyOrderRepository;
+	private IHistoryOrderRepository historyOrderRepository;
 
 	List<String> errorMessages = new ArrayList<>();
 

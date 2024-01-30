@@ -8,6 +8,6 @@ package com.espublico.importadorPedidos.service;
  * negocio asociada con el historial de órdenes, proporcionando una interfaz
  * clara para interactuar con estos datos desde otras partes de la aplicación.
  */
-public interface HistoryOrderService {
+public interface IHistoryOrderService {
 
 }

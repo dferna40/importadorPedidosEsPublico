@@ -1,8 +1,8 @@
 package com.espublico.importadorPedidos.service;
 
-import java.io.IOException;
-
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 /**
  * Interfaz de servicio para la generación de informes. Esta interfaz define una
@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * específicos, formatearlos adecuadamente, y manejar la escritura y transmisión
  * del informe generado a un cliente a través de una respuesta HTTP.
  */
-public interface GenerateReportService {
+public interface IGenerateReportService {
 
 	/**
 	 * Genera un informe en formato CSV basado en un identificador de historial y lo

@@ -1,13 +1,12 @@
 package com.espublico.importadorPedidos.service.impl;
 
-import java.util.List;
-
+import com.espublico.importadorPedidos.model.HistoryOrder;
+import com.espublico.importadorPedidos.repository.IHistoryOrderRepository;
+import com.espublico.importadorPedidos.service.IHistoryOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.espublico.importadorPedidos.model.HistoryOrder;
-import com.espublico.importadorPedidos.repository.HistoryOrderRepository;
-import com.espublico.importadorPedidos.service.HistoryOrderService;
+import java.util.List;
 
 /**
  * Implementación del servicio HistoryOrderService. Esta clase se encarga de la
@@ -17,10 +16,10 @@ import com.espublico.importadorPedidos.service.HistoryOrderService;
  * históricos de órdenes en la aplicación.
  */
 @Service("historyOrderService")
-public class HistoryOrderServiceImpl implements HistoryOrderService {
+public class HistoryOrderServiceImpl implements IHistoryOrderService {
 
 	@Autowired
-	private HistoryOrderRepository historyOrderRepository;
+	private IHistoryOrderRepository historyOrderRepository;
 
 	/**
 	 * Recupera todas las órdenes históricas almacenadas. Este método consulta el

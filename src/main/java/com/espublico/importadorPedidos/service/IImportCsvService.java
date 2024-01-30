@@ -10,7 +10,7 @@ import java.util.List;
  * análisis de archivos CSV, incluyendo la extracción y procesamiento de datos,
  * así como la recuperación de información histórica relacionada con órdenes.
  */
-public interface ImportCsvService {
+public interface IImportCsvService {
 
 	/**
 	 * Procesa un archivo CSV proporcionado a través de un BufferedReader. Este

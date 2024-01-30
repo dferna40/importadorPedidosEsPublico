@@ -1,14 +1,13 @@
 package com.espublico.importadorPedidos.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.espublico.importadorPedidos.repository.IPurchaseOrderRepository;
+import com.espublico.importadorPedidos.service.IPurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.espublico.importadorPedidos.repository.PurchaseOrderRepository;
-import com.espublico.importadorPedidos.service.PurchaseOrderService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementación del servicio PurchaseOrderService. Esta clase se encarga de
@@ -18,10 +17,10 @@ import com.espublico.importadorPedidos.service.PurchaseOrderService;
  * específicas y compilar los resultados en mapas.
  */
 @Service("purchaseOrderService")
-public class PurchaseOrderServiceImpl implements PurchaseOrderService {
+public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
 
 	@Autowired
-	private PurchaseOrderRepository purchaseOrderRepository;
+	private IPurchaseOrderRepository purchaseOrderRepository;
 
 	/**
 	 * Cuenta las órdenes de compra agrupadas por país para un identificador de

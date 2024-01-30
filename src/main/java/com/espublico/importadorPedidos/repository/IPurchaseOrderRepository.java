@@ -1,14 +1,13 @@
 package com.espublico.importadorPedidos.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.espublico.importadorPedidos.model.PurchaseOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.espublico.importadorPedidos.model.PurchaseOrder;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Repositorio JPA para la entidad PurchaseOrder. Esta interfaz extiende
@@ -19,7 +18,7 @@ import com.espublico.importadorPedidos.model.PurchaseOrder;
  * PurchaseOrder.
  */
 @Repository("purchaseOrderRepository")
-public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long> {
+public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long> {
 
 	/**
 	 * Realiza un conteo de órdenes de compra agrupadas por país basado en un

@@ -10,7 +10,7 @@ import com.espublico.importadorPedidos.dto.FinalSummaryDTO;
  * interactuar con diversas fuentes de datos y realizar cálculos o agregaciones
  * según sea necesario.
  */
-public interface FinalSummaryService {
+public interface IFinalSummaryService {
 
 	/**
 	 * Genera un resumen final basado en un identificador de historial. Este método
