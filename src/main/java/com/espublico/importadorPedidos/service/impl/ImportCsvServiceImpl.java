@@ -46,9 +46,6 @@ public class ImportCsvServiceImpl implements IImportCsvService {
 	private static final Logger logger = LoggerFactory.getLogger(ImportCsvServiceImpl.class);
 
 	@Autowired
-	private EntityManager entityManager;
-
-	@Autowired
 	@Qualifier("purchaseOrderMapper")
 	private PurchaseOrderMapper purchaseOrderMapper;
 
