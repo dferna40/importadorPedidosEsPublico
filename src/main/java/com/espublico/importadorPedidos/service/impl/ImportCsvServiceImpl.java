@@ -4,11 +4,15 @@ import com.espublico.importadorPedidos.dto.PurchaseOrderDTO;
 import com.espublico.importadorPedidos.mapper.PurchaseOrderMapper;
 import com.espublico.importadorPedidos.model.HistoryOrder;
 import com.espublico.importadorPedidos.model.PurchaseOrder;
+import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.IHistoryOrderRepository;
 import com.espublico.importadorPedidos.repository.IPurchaseOrderRepository;
 import com.espublico.importadorPedidos.service.IImportCsvService;
 import com.espublico.importadorPedidos.util.CsvDataValidator;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +21,14 @@ import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Servicio para importar datos de pedidos desde un archivo CSV y guardarlos en
@@ -37,7 +44,10 @@ import java.util.List;
 public class ImportCsvServiceImpl implements IImportCsvService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ImportCsvServiceImpl.class);
-	
+
+	@Autowired
+	private EntityManager entityManager;
+
 	@Autowired
 	@Qualifier("purchaseOrderMapper")
 	private PurchaseOrderMapper purchaseOrderMapper;
@@ -79,15 +89,15 @@ public class ImportCsvServiceImpl implements IImportCsvService {
 	 * @throws IOException Si ocurre un error de entrada/salida al leer el archivo
 	 *                     CSV.
 	 */
-	public List<String> processCsvFile(BufferedReader reader) throws IOException {
+	public List<String> processCsvFile(BufferedReader  reader, User user) throws IOException {
 		List<PurchaseOrder> purchaseOrders = new ArrayList<>();
 		String line;
-		
+
 		logger.info("Comienza el procesamiento del CSV");
 		// Crear un nuevo HistoryOrder para esta importación
 		HistoryOrder newHistoryOrder = new HistoryOrder();
 		// Asigna la fecha actual para cada historico
-		newHistoryOrder.setChangeDate(LocalDateTime.now()); 
+		newHistoryOrder.setChangeDate(LocalDateTime.now());
 		//Guarda primero un id en el histórico
 		newHistoryOrder = historyOrderRepository.save(newHistoryOrder);
 
@@ -116,16 +126,15 @@ public class ImportCsvServiceImpl implements IImportCsvService {
 				// En cada iteracion se añade la orden a la lista de ordenes de pedidos
 				PurchaseOrder order = purchaseOrderMapper.toEntity(purchaseOrderDTO);
 				order.setHistoryOrder(newHistoryOrder);
-                purchaseOrders.add(order);
+				order.setUser(user);
+				// Guardar la entidad PurchaseOrder inmediatamente
+				purchaseOrderRepository.save(order);
 			}
 		}
 
-		// Guardar todos los PurchaseOrders en la base de datos en un lote
-        purchaseOrderRepository.saveAll(purchaseOrders);
-        
-        logger.info("Guarda todos los registros en Base de datos");
-        
-        return errorMessages;
+		logger.info("Guarda todos los registros en Base de datos");
+
+		return errorMessages;
 	}
 
 	/**
@@ -161,7 +170,7 @@ public class ImportCsvServiceImpl implements IImportCsvService {
 
 	/**
 	 * Valida los valores de una línea específica del archivo CSV.
-	 *
+	 * <p>
 	 * Este método verifica que cada campo de una línea del CSV cumpla con las
 	 * validaciones específicas dependiendo de su tipo y contenido esperado. Se
 	 * utilizan distintas validaciones para cadenas, fechas y números. Cada
@@ -169,19 +178,16 @@ public class ImportCsvServiceImpl implements IImportCsvService {
 	 * CsvDataValidator.
 	 *
 	 * @param values Un array de String que contiene todos los campos de una línea
-	 *               del CSV. Cada elemento del array representa un campo específico
-	 *               del CSV.
-	 * @param line   La línea completa del CSV que se está validando, utilizada para
-	 *               generar mensajes de error más informativos en caso de que
-	 *               alguno de los campos no sea válido.
+	 *              del CSV. Cada elemento del array representa un campo específico
+	 *              del CSV.
 	 * @return boolean Retorna 'true' si todos los campos de la línea son válidos,
-	 *         de lo contrario retorna 'false'.
-	 *
-	 *         El método actualiza la lista 'errorMessages' con mensajes
-	 *         descriptivos en caso de encontrar valores inválidos en alguno de los
-	 *         campos. Esta lista se utilizadara posteriormente para informar al
-	 *         usuario sobre los errores específicos encontrados durante el
-	 *         procesamiento del archivo CSV.
+	 * de lo contrario retorna 'false'.
+	 * <p>
+	 * El método actualiza la lista 'errorMessages' con mensajes
+	 * descriptivos en caso de encontrar valores inválidos en alguno de los
+	 * campos. Esta lista se utilizadara posteriormente para informar al
+	 * usuario sobre los errores específicos encontrados durante el
+	 * procesamiento del archivo CSV.
 	 */
 	private boolean validValuesCsv(String[] values, String line) {
 

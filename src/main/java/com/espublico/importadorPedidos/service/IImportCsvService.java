@@ -1,7 +1,10 @@
 package com.espublico.importadorPedidos.service;
 
+import com.espublico.importadorPedidos.model.User;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -24,7 +27,7 @@ public interface IImportCsvService {
 	 * @throws IOException Si ocurre un error de entrada/salida durante el
 	 *                     procesamiento del archivo.
 	 */
-	List<String> processCsvFile(BufferedReader reader) throws IOException;
+	List<String> processCsvFile(BufferedReader reader, User user) throws IOException;
 
 	/**
 	 * Obtiene el identificador máximo de una orden histórica. Este método puede ser

@@ -131,6 +131,7 @@
 											Web para importar pedidos <br>desde un fichero externo
 											en formato CSV
 										</p>
+                                        <p>El tamaño máximo del fichero será de 100 megabytes</p>
 										<button onclick="triggerFileUpload()" class="read_more">Importar
 											pedidos</button>
 										<form th:action="@{/importarPedidos}" method="post"
@@ -139,9 +140,9 @@
 												onchange="this.form.submit()" />
 										</form>
 										<br> <br>
-										<div th:if="${warningMessage}">
-											<span th:text="${warningMessage}"></span>
-										</div>
+                                        <div th:if="${warningMessage}">
+                                            <span th:utext="${warningMessage}"></span>
+                                        </div>
 									</div>
 								</div>
 							</div>
