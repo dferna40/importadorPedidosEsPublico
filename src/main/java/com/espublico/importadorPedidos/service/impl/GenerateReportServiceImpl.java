@@ -1,6 +1,7 @@
 package com.espublico.importadorPedidos.service.impl;
 
 import com.espublico.importadorPedidos.model.PurchaseOrder;
+import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.IPurchaseOrderRepository;
 import com.espublico.importadorPedidos.service.IGenerateReportService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,7 +47,7 @@ public class GenerateReportServiceImpl implements IGenerateReportService {
 	 * @throws IOException Si ocurre un error al escribir en la respuesta HTTP.
 	 */
 	@Override
-	public void generateReportCsv(HttpServletResponse response, Long idHistory) throws IOException {
+	public void generateReportCsv(HttpServletResponse response, Long idHistory, Long idUser) throws IOException {
 		
 		logger.info("Comienza la generación del informe");
 		
@@ -65,7 +66,7 @@ public class GenerateReportServiceImpl implements IGenerateReportService {
 					"Total Cost", "Total Profit");
 			
 			//Contenido del fichero
-			Optional<List<PurchaseOrder>> purchaseOrdersOptional = purchaseOrderRepository.findByHistoryOrderIdOrderByOrderId(idHistory);
+			Optional<List<PurchaseOrder>> purchaseOrdersOptional = purchaseOrderRepository.findByHistoryOrderIdOrderByOrderId(idHistory,null);
 			if (purchaseOrdersOptional.isPresent()) {
 				List<PurchaseOrder> purchaseOrders = purchaseOrdersOptional.get();
 				

@@ -29,8 +29,8 @@ public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, L
 	 * @param historyId El identificador del historial de órdenes para filtrar.
 	 * @return Una lista de pares (país, conteo).
 	 */
-	@Query("SELECT p.country, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.country")
-	List<Object[]> countPurchaseOrdersByCountryAndHistoryId(@Param("idHistory") Long historyId);
+	@Query("SELECT p.country, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.historyId = :idHistory AND p.user.userId = :idUser GROUP BY p.country")
+	List<Object[]> countPurchaseOrdersByCountryAndHistoryId(@Param("idHistory") Long historyId, @Param("idUser") Long userId);
 
 	/**
 	 * Realiza un conteo de órdenes de compra agrupadas por región basado en un
@@ -41,8 +41,8 @@ public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, L
 	 * @param historyId El identificador del historial de órdenes para filtrar.
 	 * @return Una lista de pares (país, conteo).
 	 */
-	@Query("SELECT p.region, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.region")
-	List<Object[]> countPurchaseOrdersByRegionAndHistoryId(@Param("idHistory") Long historyId);
+	@Query("SELECT p.region, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.historyId = :idHistory AND p.user.userId = :idUser GROUP BY p.region")
+	List<Object[]> countPurchaseOrdersByRegionAndHistoryId(@Param("idHistory") Long historyId, @Param("idUser") Long userId);
 
 	/**
 	 * Realiza un conteo de órdenes de compra agrupadas por tipo de item basado en
@@ -53,8 +53,8 @@ public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, L
 	 * @param historyId El identificador del historial de órdenes para filtrar.
 	 * @return Una lista de pares (país, conteo).
 	 */
-	@Query("SELECT p.itemType, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.itemType")
-	List<Object[]> countPurchaseOrdersByItemTypeAndHistoryId(@Param("idHistory") Long historyId);
+	@Query("SELECT p.itemType, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.historyId = :idHistory AND p.user.userId = :idUser GROUP BY p.itemType")
+	List<Object[]> countPurchaseOrdersByItemTypeAndHistoryId(@Param("idHistory") Long historyId, @Param("idUser") Long userId);
 
 	/**
 	 * Realiza un conteo de órdenes de compra agrupadas por canal de ventas basado
@@ -65,8 +65,8 @@ public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, L
 	 * @param historyId El identificador del historial de órdenes para filtrar.
 	 * @return Una lista de pares (país, conteo).
 	 */
-	@Query("SELECT p.salesChannel, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.salesChannel")
-	List<Object[]> countPurchaseOrdersBySalesChannelAndHistoryId(@Param("idHistory") Long historyId);
+	@Query("SELECT p.salesChannel, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.historyId = :idHistory AND p.user.userId = :idUser GROUP BY p.salesChannel")
+	List<Object[]> countPurchaseOrdersBySalesChannelAndHistoryId(@Param("idHistory") Long historyId, @Param("idUser") Long userId);
 
 	/**
 	 * Realiza un conteo de órdenes de compra agrupadas por prioridad de orden
@@ -77,8 +77,8 @@ public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, L
 	 * @param historyId El identificador del historial de órdenes para filtrar.
 	 * @return Una lista de pares (país, conteo).
 	 */
-	@Query("SELECT p.orderPriority, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory GROUP BY p.orderPriority")
-	List<Object[]> countPurchaseOrdersByOrderPriorityAndHistoryId(@Param("idHistory") Long historyId);
+	@Query("SELECT p.orderPriority, COUNT(p) FROM PurchaseOrder p WHERE p.historyOrder.historyId = :idHistory AND p.user.userId = :idUser GROUP BY p.orderPriority")
+	List<Object[]> countPurchaseOrdersByOrderPriorityAndHistoryId(@Param("idHistory") Long historyId, @Param("idUser") Long userId);
 
 	/**
 	 * Encuentra todas las órdenes de compra asociadas a un identificador de
@@ -89,7 +89,7 @@ public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, L
 	 * @param historyId El identificador del historial de órdenes para filtrar.
 	 * @return Una lista de órdenes de compra ordenadas.
 	 */
-	@Query("SELECT p FROM PurchaseOrder p WHERE p.historyOrder.id = :idHistory ORDER BY p.orderId")
-	Optional<List<PurchaseOrder>> findByHistoryOrderIdOrderByOrderId(@Param("idHistory") Long historyId);
+	@Query("SELECT p FROM PurchaseOrder p WHERE p.historyOrder.historyId = :idHistory AND p.user.userId = :idUser ORDER BY p.orderId")
+	Optional<List<PurchaseOrder>> findByHistoryOrderIdOrderByOrderId(@Param("idHistory") Long historyId, @Param("idUser") Long userId);
 
 }

@@ -19,7 +19,7 @@ public interface IPurchaseOrderService {
 	 * @param historyId El identificador del historial de órdenes.
 	 * @return Un mapa con el país como clave y el conteo de órdenes como valor.
 	 */
-	Map<String, Long> countPurchaseOrdersByCountryAndHistoryId(Long historyId);
+	Map<String, Long> countPurchaseOrdersByCountryAndHistoryId(Long historyId, Long userId);
 
 	/**
 	 * Cuenta las órdenes de compra agrupadas por región para un identificador de
@@ -28,7 +28,7 @@ public interface IPurchaseOrderService {
 	 * @param historyId El identificador del historial de órdenes.
 	 * @return Un mapa con la región como clave y el conteo de órdenes como valor.
 	 */
-	Map<String, Long> countPurchaseOrdersByRegionAndHistoryId(Long historyId);
+	Map<String, Long> countPurchaseOrdersByRegionAndHistoryId(Long historyId, Long userId);
 
 	/**
 	 * Cuenta las órdenes de compra agrupadas por tipo de ítem para un identificador
@@ -38,7 +38,7 @@ public interface IPurchaseOrderService {
 	 * @return Un mapa con el tipo de ítem como clave y el conteo de órdenes como
 	 *         valor.
 	 */
-	Map<String, Long> countPurchaseOrdersByItemTypeAndHistoryId(Long historyId);
+	Map<String, Long> countPurchaseOrdersByItemTypeAndHistoryId(Long historyId, Long userId);
 
 	/**
 	 * Cuenta las órdenes de compra agrupadas por canal de ventas para un
@@ -48,7 +48,7 @@ public interface IPurchaseOrderService {
 	 * @return Un mapa con el canal de ventas como clave y el conteo de órdenes como
 	 *         valor.
 	 */
-	Map<String, Long> countPurchaseOrdersBySalesChannelAndHistoryId(Long historyId);
+	Map<String, Long> countPurchaseOrdersBySalesChannelAndHistoryId(Long historyId, Long userId);
 
 	/**
 	 * Cuenta las órdenes de compra agrupadas por prioridad de la orden para un
@@ -58,5 +58,5 @@ public interface IPurchaseOrderService {
 	 * @return Un mapa con la prioridad de la orden como clave y el conteo de
 	 *         órdenes como valor.
 	 */
-	Map<String, Long> countPurchaseOrdersByOrderPriorityAndHistoryId(Long historyId);
+	Map<String, Long> countPurchaseOrdersByOrderPriorityAndHistoryId(Long historyId, Long userId);
 }

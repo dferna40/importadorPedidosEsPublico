@@ -39,18 +39,18 @@ public class FinalSummaryServiceImpl implements IFinalSummaryService {
 	 * @return Un objeto FinalSummaryDTO que contiene los resúmenes agrupados.
 	 */
 	@Override
-	public FinalSummaryDTO resultFinalSummary(Long idHistory) {
+	public FinalSummaryDTO resultFinalSummary(Long idHistory, Long idUser) {
 
 		logger.info("Empieza el procesamiento de los datos para el conteo del resumen final");
 		
-		Map<String, Long> countryOrderCounts = purchaseOrderService.countPurchaseOrdersByCountryAndHistoryId(idHistory);
-		Map<String, Long> regionOrderCounts = purchaseOrderService.countPurchaseOrdersByRegionAndHistoryId(idHistory);
+		Map<String, Long> countryOrderCounts = purchaseOrderService.countPurchaseOrdersByCountryAndHistoryId(idHistory,idUser);
+		Map<String, Long> regionOrderCounts = purchaseOrderService.countPurchaseOrdersByRegionAndHistoryId(idHistory,idUser);
 		Map<String, Long> itemTpyeOrderCounts = purchaseOrderService
-				.countPurchaseOrdersByItemTypeAndHistoryId(idHistory);
+				.countPurchaseOrdersByItemTypeAndHistoryId(idHistory,idUser);
 		Map<String, Long> orderPriorityOrderCounts = purchaseOrderService
-				.countPurchaseOrdersByOrderPriorityAndHistoryId(idHistory);
+				.countPurchaseOrdersByOrderPriorityAndHistoryId(idHistory,idUser);
 		Map<String, Long> salesChannelOrderCounts = purchaseOrderService
-				.countPurchaseOrdersBySalesChannelAndHistoryId(idHistory);
+				.countPurchaseOrdersBySalesChannelAndHistoryId(idHistory,idUser);
 
 		List<CountryFinalSummaryDTO> countryOrderCountList = new ArrayList<>();
 		List<RegionFinalSummaryDTO> regionOrderCountList = new ArrayList<>();

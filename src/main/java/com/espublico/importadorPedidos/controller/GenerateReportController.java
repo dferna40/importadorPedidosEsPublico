@@ -1,5 +1,7 @@
 package com.espublico.importadorPedidos.controller;
 
+import com.espublico.importadorPedidos.model.User;
+import com.espublico.importadorPedidos.repository.IUserRepository;
 import com.espublico.importadorPedidos.service.IGenerateReportService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -7,10 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Controlador para manejar la generación de informes en formato CSV.
@@ -22,6 +28,9 @@ import java.io.IOException;
 public class GenerateReportController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GenerateReportController.class);
+
+	@Autowired
+	private IUserRepository userRepository;
 
 	@Autowired
 	@Qualifier("generateReportService")
@@ -44,7 +53,14 @@ public class GenerateReportController {
 		// Lógica con el valor recuperado
 		if (idHistory != null) {
 			try {
-				generateReportService.generateReportCsv(response, idHistory);
+				// Obtén el usuario logueado desde Spring Security
+				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+				// Necesitas obtener la entidad User relevante de tu base de datos.
+				// Este es solo un ejemplo, reemplaza 'userRepository' y 'findByUsername'
+				// con tu repositorio y método apropiado.
+				Optional<User> optionalUser = userRepository.findByUserName(userDetails.getUsername());
+				generateReportService.generateReportCsv(response, idHistory,optionalUser.get().getUserId());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -52,5 +68,15 @@ public class GenerateReportController {
 		}
 
 
+	}
+
+	public String getCurrentUsername() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			return ((UserDetails)principal).getUsername();
+		} else {
+			return principal.toString();
+		}
 	}
 }

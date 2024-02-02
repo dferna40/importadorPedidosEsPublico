@@ -23,5 +23,5 @@ public interface IFinalSummaryService {
 	 * @return Un DTO que representa el resumen final compilado a partir del
 	 *         historial de órdenes.
 	 */
-	FinalSummaryDTO resultFinalSummary(Long idHistory);
+	FinalSummaryDTO resultFinalSummary(Long idHistory, Long userId);
 }

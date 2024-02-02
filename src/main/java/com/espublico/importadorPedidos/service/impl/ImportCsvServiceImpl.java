@@ -95,6 +95,8 @@ public class ImportCsvServiceImpl implements IImportCsvService {
 		HistoryOrder newHistoryOrder = new HistoryOrder();
 		// Asigna la fecha actual para cada historico
 		newHistoryOrder.setChangeDate(LocalDateTime.now());
+
+		newHistoryOrder.setUser(user);
 		//Guarda primero un id en el histórico
 		newHistoryOrder = historyOrderRepository.save(newHistoryOrder);
 

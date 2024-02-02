@@ -1,5 +1,6 @@
 package com.espublico.importadorPedidos.service;
 
+import com.espublico.importadorPedidos.model.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
@@ -25,5 +26,5 @@ public interface IGenerateReportService {
 	 *                  se generará el informe.
 	 * @throws IOException Si ocurre un error al escribir en la respuesta HTTP.
 	 */
-	void generateReportCsv(HttpServletResponse response, Long idHistory) throws IOException;
+	void generateReportCsv(HttpServletResponse response, Long idHistory, Long idUser) throws IOException;
 }
