@@ -70,7 +70,6 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 						.logoutUrl("/logout")
 						.invalidateHttpSession(true)
 						.clearAuthentication(true)); // Añadiendo detalles del cierre de sesión
-		http.csrf(csrf -> csrf.disable());
 		return http.build();
 	}
 

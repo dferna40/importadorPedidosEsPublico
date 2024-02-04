@@ -6,7 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Registration or Sign Up form in HTML CSS | CodingLab </title>
     <link rel="stylesheet" href="/importadorPedidos/css/styleRegisterLogin.css">
-   </head>
+    <script>
+      var password = document.getElementById("password")
+      var confirm_password = document.getElementById("confirm_password");
+
+      function validatePassword() {
+        if(password.value != confirm_password.value) {
+          confirm_password.setCustomValidity("Las contraseñas no coinciden");
+        } else {
+          confirm_password.setCustomValidity('');
+        }
+      }
+
+      password.onchange = validatePassword;
+      confirm_password.onkeyup = validatePassword;
+    </script>
+  </head>
 <body>
   <div class="wrapper">
     <h2>Registro</h2>
@@ -20,17 +35,20 @@
                placeholder="Introduce tu correo electronico" required>
       </div>
       <div class="input-box">
-        <input type="password" th:field="*{password}"
+        <input type="password" id="password" th:field="*{password}"
                placeholder="Crea una contraseña" required>
       </div>
       <div class="input-box">
-        <input type="password" th:field="*{password}"
+        <input type="password" id="confirm_password"
                placeholder="Confirma tu contraseña" required>
       </div>
       <div class="input-box button">
         <input type="submit" value="Registrate ahora">
       </div>
     </form>
+    <div class="input-box button">
+      <a th:href="@{/login}" class="register-button">Si ya estas registrado, pulsa aqui</a>
+    </div>
   </div>
 
 </body>
