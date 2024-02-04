@@ -1,9 +1,18 @@
 package com.espublico.importadorPedidos.dto;
 
-public class RegisterDTO {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+public class RegisterDTO {
+	@NotNull
+	@Size(min = 1, max = 20)
 	private String username;
+	@NotNull
+	@Size(min = 1, max = 8)
 	private String password;
+	@NotNull
+	@Email
 	private String email;
 	
 	public String getUsername() {

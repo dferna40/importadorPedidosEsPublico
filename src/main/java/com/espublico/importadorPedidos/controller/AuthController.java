@@ -7,11 +7,15 @@ import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.IUserRepository;
 import com.espublico.importadorPedidos.service.IRegistrationService;
 import com.espublico.importadorPedidos.service.impl.HistoryOrderServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +37,7 @@ public class AuthController {
 	private IUserRepository userRepository;
 
 
+
 	private AuthenticationManager authenticationManager;
 	@GetMapping("/login")
 	public ModelAndView showLoginForm() {
@@ -51,15 +56,31 @@ public class AuthController {
 	}
 
 	@PostMapping("/registro")
-	public String processRegistration(@ModelAttribute RegisterDTO registerDTO) {
-		registrationService.register(registerDTO);
-		// Redirigir a la página de login o mostrar un mensaje de error según sea necesario
-		return "redirect:/login";
+	public ModelAndView processRegistration(
+			@Valid @ModelAttribute RegisterDTO registerDTO,
+			BindingResult bindingResult) {
+		ModelAndView mav = new ModelAndView();
+
+		if (bindingResult.hasErrors()) {
+			// Si hay errores de validación, volvemos a la vista de registro
+			mav.setViewName("register");
+		} else {
+			// Si no hay errores de validación, intentamos registrar al usuario
+			String mensajeUsuario = registrationService.register(registerDTO);
+			if(!mensajeUsuario.isEmpty()){
+				mav.addObject("usuarioExistente", mensajeUsuario);
+				mav.setViewName("register");
+			} else {
+				mav.setViewName("login");
+			}
+		}
+
+		return mav;
 	}
 
 	@GetMapping("/inicio")
 	public ModelAndView index(ModelAndView mav) {
-		List<HistoryOrder> historyOrders = historyOrderService.getAllHistoryOrders();
+		List<HistoryOrder> historyOrders = historyOrderService.getHistoryOrdersByUser(getCurrentUser());
 		mav.addObject("historyOrders", historyOrders);
 		mav.addObject("usuarioLogin",getCurrentUsername());
 		mav.addObject("email",getCurrentUserEmail());
@@ -82,5 +103,22 @@ public class AuthController {
 		Optional<User> optionalUser = userRepository.findByUserName(username);
 
 		return optionalUser.map(User::getEmail).orElse(null);
+	}
+
+	private User getCurrentUser() {
+		// Obtén el usuario logueado desde Spring Security
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		// Necesitas obtener la entidad User relevante de tu base de datos.
+		// Este es solo un ejemplo, reemplaza 'userRepository' y 'findByUsername'
+		// con tu repositorio y método apropiado.
+		Optional<User> optionalUser = userRepository.findByUserName(userDetails.getUsername());
+
+		if (!optionalUser.isPresent()) {
+			// Lanza una excepción si no se encuentra al usuario
+			throw new UsernameNotFoundException("No se puede encontrar el usuario: " + userDetails.getUsername());
+		}
+
+		return optionalUser.get();
 	}
 }

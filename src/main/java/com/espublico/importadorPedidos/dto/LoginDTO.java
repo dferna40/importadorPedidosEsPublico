@@ -1,8 +1,14 @@
 package com.espublico.importadorPedidos.dto;
 
-public class LoginDTO {
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+public class LoginDTO {
+	@NotNull
+	@Size(min = 1, max = 20)
 	private String username;
+	@NotNull
+	@Size(min = 1, max = 8)
 	private String password;
 	
 	

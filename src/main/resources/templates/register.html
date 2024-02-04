@@ -49,6 +49,10 @@
     <div class="input-box button">
       <a th:href="@{/login}" class="register-button">Si ya estas registrado, pulsa aqui</a>
     </div>
+    <br> <br>
+    <div th:if="${usuarioExistente}">
+      <span th:text="${usuarioExistente}"></span>
+    </div>
   </div>
 
 </body>

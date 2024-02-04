@@ -31,23 +31,28 @@ public class RegistrationServiceImpl implements IRegistrationService {
     }
 
     @Override
-    public void register(RegisterDTO registerDTO) {
+    public String register(RegisterDTO registerDTO) {
+        String usuarioExistente = "";
         if (userRepository.existsByUserName(registerDTO.getUsername())) {
-            System.out.println("");
-        }
-        User user = new User();
-        user.setUserName(registerDTO.getUsername());
-        user.setEmail(registerDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        // Setea el rol de usuario
-        Roles roles = rolesRepository.findByName("ADMIN").orElseThrow(new Supplier<EntityNotFoundException>() {
-            @Override
-            public EntityNotFoundException get() {
-                return new EntityNotFoundException("Rol no encontrado");
-            }
-        });
-        user.setRoles(Collections.singletonList(roles));
+            System.out.println("El usuario ya existe");
+            usuarioExistente = "El usuario ya existe";
 
-        userRepository.save(user);
+        } else {
+            User user = new User();
+            user.setUserName(registerDTO.getUsername());
+            user.setEmail(registerDTO.getEmail());
+            user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+            // Setea el rol de usuario
+            Roles roles = rolesRepository.findByName("ADMIN").orElseThrow(new Supplier<EntityNotFoundException>() {
+                @Override
+                public EntityNotFoundException get() {
+                    return new EntityNotFoundException("Rol no encontrado");
+                }
+            });
+            user.setRoles(Collections.singletonList(roles));
+
+            userRepository.save(user);
+        }
+        return usuarioExistente;
     }
 }

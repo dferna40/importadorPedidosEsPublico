@@ -1,10 +1,14 @@
 package com.espublico.importadorPedidos.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -15,12 +19,18 @@ public class User {
 	@Column(name = "user_id")
 	private Long userId;
 
+	@NotNull
+	@Size(min = 1, max = 20)
 	@Column(name = "user_name")
 	private String userName;
 
+	@NotNull
+	@Size(min = 1, max = 8)
 	@Column(name = "password")
 	private String password;
 
+	@NotNull
+	@Email
 	@Column(name = "email")
 	private String email;
 

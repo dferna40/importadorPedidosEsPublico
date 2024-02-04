@@ -1,6 +1,7 @@
 package com.espublico.importadorPedidos.service.impl;
 
 import com.espublico.importadorPedidos.model.HistoryOrder;
+import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.IHistoryOrderRepository;
 import com.espublico.importadorPedidos.service.IHistoryOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class HistoryOrderServiceImpl implements IHistoryOrderService {
 	 * @return Una lista de objetos HistoryOrder que representan todas las órdenes
 	 *         históricas almacenadas.
 	 */
-	public List<HistoryOrder> getAllHistoryOrders() {
-		return historyOrderRepository.findAll();
+	public List<HistoryOrder> getHistoryOrdersByUser(User user) {
+		return historyOrderRepository.findByUser(user);
 	}
 }
