@@ -1,6 +1,7 @@
 package com.espublico.importadorPedidos.service.impl;
 
 import com.espublico.importadorPedidos.dto.RegisterDTO;
+import com.espublico.importadorPedidos.exception.UserAlreadyExistsException;
 import com.espublico.importadorPedidos.model.Roles;
 import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.IRolesRepository;
@@ -31,28 +32,25 @@ public class RegistrationServiceImpl implements IRegistrationService {
     }
 
     @Override
-    public String register(RegisterDTO registerDTO) {
-        String usuarioExistente = "";
+    public void register(RegisterDTO registerDTO) {
         if (userRepository.existsByUserName(registerDTO.getUsername())) {
-            System.out.println("El usuario ya existe");
-            usuarioExistente = "El usuario ya existe";
-
-        } else {
-            User user = new User();
-            user.setUserName(registerDTO.getUsername());
-            user.setEmail(registerDTO.getEmail());
-            user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-            // Setea el rol de usuario
-            Roles roles = rolesRepository.findByName("ADMIN").orElseThrow(new Supplier<EntityNotFoundException>() {
-                @Override
-                public EntityNotFoundException get() {
-                    return new EntityNotFoundException("Rol no encontrado");
-                }
-            });
-            user.setRoles(Collections.singletonList(roles));
-
-            userRepository.save(user);
+            throw new UserAlreadyExistsException("El usuario ya existe");
         }
-        return usuarioExistente;
+        User user = new User();
+        user.setUserName(registerDTO.getUsername());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+
+        // Setea el rol de usuario
+        Roles roles = rolesRepository.findByName("ADMIN").orElseThrow(new Supplier<EntityNotFoundException>() {
+            @Override
+            public EntityNotFoundException get() {
+                return new EntityNotFoundException("Rol no encontrado");
+            }
+        });
+        user.setRoles(Collections.singletonList(roles));
+
+        userRepository.save(user);
     }
+
 }

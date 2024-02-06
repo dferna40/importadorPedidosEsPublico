@@ -4,5 +4,5 @@ import com.espublico.importadorPedidos.dto.RegisterDTO;
 
 public interface IRegistrationService {
 
-    String register(RegisterDTO registerDTO);
+    void register(RegisterDTO registerDTO);
 }

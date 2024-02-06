@@ -2,6 +2,7 @@ package com.espublico.importadorPedidos.controller;
 
 import com.espublico.importadorPedidos.dto.LoginDTO;
 import com.espublico.importadorPedidos.dto.RegisterDTO;
+import com.espublico.importadorPedidos.exception.UserAlreadyExistsException;
 import com.espublico.importadorPedidos.model.HistoryOrder;
 import com.espublico.importadorPedidos.model.User;
 import com.espublico.importadorPedidos.repository.IUserRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,24 +59,17 @@ public class AuthController {
 
 	@PostMapping("/registro")
 	public ModelAndView processRegistration(
-			@Valid @ModelAttribute RegisterDTO registerDTO,
-			BindingResult bindingResult) {
+			@Valid @ModelAttribute RegisterDTO registerDTO, BindingResult result) {
 		ModelAndView mav = new ModelAndView();
+		try{
+			registrationService.register(registerDTO);
+			mav.setViewName("redirect:/login");
 
-		if (bindingResult.hasErrors()) {
-			// Si hay errores de validación, volvemos a la vista de registro
+		}catch (UserAlreadyExistsException e) {
+			result.rejectValue("username", "error.user", e.getMessage());
+			mav.addObject("user", registerDTO);
 			mav.setViewName("register");
-		} else {
-			// Si no hay errores de validación, intentamos registrar al usuario
-			String mensajeUsuario = registrationService.register(registerDTO);
-			if(!mensajeUsuario.isEmpty()){
-				mav.addObject("usuarioExistente", mensajeUsuario);
-				mav.setViewName("register");
-			} else {
-				mav.setViewName("login");
-			}
 		}
-
 		return mav;
 	}
 

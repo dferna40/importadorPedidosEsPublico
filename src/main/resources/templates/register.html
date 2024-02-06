@@ -29,6 +29,7 @@
       <div class="input-box">
         <input type="text" th:field="*{username}"
                placeholder="Introduce tu nombre de usuario" required>
+        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
       </div>
       <div class="input-box">
         <input type="text" th:field="*{email}"
@@ -50,9 +51,7 @@
       <a th:href="@{/login}" class="register-button">Si ya estas registrado, pulsa aqui</a>
     </div>
     <br> <br>
-    <div th:if="${usuarioExistente}">
-      <span th:text="${usuarioExistente}"></span>
-    </div>
+
   </div>
 
 </body>

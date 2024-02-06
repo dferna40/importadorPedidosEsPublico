@@ -19,18 +19,18 @@ public class User {
 	@Column(name = "user_id")
 	private Long userId;
 
-	@NotNull
-	@Size(min = 1, max = 20)
+//	@NotNull
+//	@Size(min = 1, max = 20)
 	@Column(name = "user_name")
 	private String userName;
 
-	@NotNull
-	@Size(min = 1, max = 8)
+//	@NotNull
+//	@Size(min = 1, max = 8)
 	@Column(name = "password")
 	private String password;
 
-	@NotNull
-	@Email
+//	@NotNull
+//	@Email
 	@Column(name = "email")
 	private String email;
 
