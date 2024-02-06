@@ -26,5 +26,5 @@ public interface IGenerateReportService {
 	 *                  se generará el informe.
 	 * @throws IOException Si ocurre un error al escribir en la respuesta HTTP.
 	 */
-	void generateReportCsv(HttpServletResponse response, Long idHistory, Long idUser) throws IOException;
+	void generateReportCsv(HttpServletResponse response, Long idHistory, User user) throws IOException;
 }

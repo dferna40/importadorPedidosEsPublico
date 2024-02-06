@@ -47,14 +47,14 @@ public class GenerateReportServiceImpl implements IGenerateReportService {
 	 * @throws IOException Si ocurre un error al escribir en la respuesta HTTP.
 	 */
 	@Override
-	public void generateReportCsv(HttpServletResponse response, Long idHistory, Long idUser) throws IOException {
+	public void generateReportCsv(HttpServletResponse response, Long idHistory, User user) throws IOException {
 		
 		logger.info("Comienza la generación del informe");
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		// Configura la respuesta para descargar un archivo CSV
 		String currentDate = LocalDate.now().format(formatter);
-		String fileName = "informePedidos_" + currentDate + ".csv";
+		String fileName = "informePedidos_"+user.getUserName()+ "_" + currentDate + ".csv";
 		response.setContentType("text/csv");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
@@ -66,7 +66,7 @@ public class GenerateReportServiceImpl implements IGenerateReportService {
 					"Total Cost", "Total Profit");
 			
 			//Contenido del fichero
-			Optional<List<PurchaseOrder>> purchaseOrdersOptional = purchaseOrderRepository.findByHistoryOrderIdOrderByOrderId(idHistory,null);
+			Optional<List<PurchaseOrder>> purchaseOrdersOptional = purchaseOrderRepository.findByHistoryOrderIdOrderByOrderId(idHistory,user.getUserId());
 			if (purchaseOrdersOptional.isPresent()) {
 				List<PurchaseOrder> purchaseOrders = purchaseOrdersOptional.get();
 				

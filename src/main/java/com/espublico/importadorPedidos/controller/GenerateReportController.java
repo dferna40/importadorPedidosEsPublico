@@ -57,10 +57,8 @@ public class GenerateReportController {
 				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 				// Necesitas obtener la entidad User relevante de tu base de datos.
-				// Este es solo un ejemplo, reemplaza 'userRepository' y 'findByUsername'
-				// con tu repositorio y método apropiado.
 				Optional<User> optionalUser = userRepository.findByUserName(userDetails.getUsername());
-				generateReportService.generateReportCsv(response, idHistory,optionalUser.get().getUserId());
+				generateReportService.generateReportCsv(response, idHistory,optionalUser.get());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
