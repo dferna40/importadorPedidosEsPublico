@@ -59,7 +59,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				.cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
 				.csrf(csrf -> csrf.ignoringRequestMatchers("/chat"))
 				.authorizeRequests(authorize -> authorize
-						.requestMatchers("/css/**", "/js/**", "/images/**", "/registro", "/chat").permitAll()
+						.requestMatchers("/css/**", "/js/**", "/images/**", "/registro", "/chat","/websocketClient").permitAll()
 						.anyRequest().authenticated())
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
