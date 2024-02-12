@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity // Indica que se activa la seguridad web en nuestra aplicacion y ademas esta
@@ -55,8 +56,10 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+				.cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/chat"))
 				.authorizeRequests(authorize -> authorize
-						.requestMatchers("/css/**", "/js/**", "/images/**", "/registro").permitAll()
+						.requestMatchers("/css/**", "/js/**", "/images/**", "/registro", "/chat").permitAll()
 						.anyRequest().authenticated())
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
